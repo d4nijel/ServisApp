@@ -1,0 +1,92 @@
+﻿
+@{
+    ViewData["Title"] = "Ispitivanja";
+    int brojac = 1;
+}
+
+@model ServisApp.Areas.InzinjerModul.ViewModels.IspitivanjeIndexVM
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card card-lightblue">
+                    <div class="card-header">
+                        <h3 class="card-title">Prikaz svih ispitivanja</h3>
+                    </div>
+                    <div class="card-body">
+                        <table id="tblIspitivanja" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Red. br.</th>
+                                    <th>Naziv</th>
+                                    <th>Datum ispitivanja</th>
+                                    <th>Datum narednog ispitivanja</th>
+                                    <th>Broj dana do isteka</th>
+                                    <th>Tip ispitivanja</th>
+                                    <th colspan="2">Izvještaj</th>
+                                    <th>Akcija</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var x in Model.Rows)
+                                {
+                                    <tr>
+                                        <th scope="row">@(brojac++)</th>
+                                        <td>@x.NazivIspitivanja</td>
+                                        <td>@x.DatumIspitivanja</td>
+                                        <td>@x.DatumNarednogIspitivanja</td>
+                                        @if (x.BroDanaDoNarednogIspitivanja < 0)
+                                        {
+                                            <td><span class="badge bg-danger">@x.BroDanaDoNarednogIspitivanja</span></td>
+                                        }
+                                        else if (x.BroDanaDoNarednogIspitivanja <= 20)
+                                        {
+                                            <td><span class="badge bg-warning">@x.BroDanaDoNarednogIspitivanja</span></td>
+                                        }
+                                        else
+                                        {
+                                            <td><span class="badge bg-success">@x.BroDanaDoNarednogIspitivanja</span></td>
+                                        }
+                                        <td>@x.TipIspitivanja</td>
+                                        @if (x.PostojanjeIzvjestaja)
+                                        {
+                                            <td>
+                                                <span class="badge bg-success"><i class="fas fa-plus"></i></span>
+                                            </td>
+                                            <td>
+                                                <a class="btn btn-outline-info btn-sm" asp-action="Detalji" asp-controller="Izvjestaj" asp-route-id=@x.IspitivanjeId ajax-poziv="da" ajax-rezultat="ajaxPoziv">Detalji</a>
+                                                <a class="btn btn-outline-danger btn-sm" asp-action="Obrisi" asp-controller="Izvjestaj" asp-route-id=@x.IzvjestajId ajax-poziv="da" ajax-rezultat="ajaxPoziv">Obriši</a>
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            <td>
+                                                <span class="badge bg-danger"><i class="fas fa-minus"></i></span>
+                                            </td>
+                                            <td>
+                                                <a class="btn btn-outline-primary btn-sm" asp-action="Dodaj" asp-controller="Izvjestaj" asp-route-id=@x.IspitivanjeId ajax-poziv="da" ajax-rezultat="ajaxPoziv">Dodaj</a>
+                                            </td>
+                                        }
+                                        <td>
+                                            <a class="btn btn-outline-info btn-sm" asp-action="Detalji" asp-route-id="@x.IspitivanjeId" ajax-poziv="da" ajax-rezultat="ajaxPoziv">Detalji</a>
+                                            @if (x.DeleteBtn)
+                                            {
+                                                <a class="btn btn-outline-danger btn-sm" asp-action="Obrisi" asp-route-id="@x.IspitivanjeId" ajax-poziv="da" ajax-rezultat="ajaxPoziv">Obriši</a>
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                        <br />
+                        <div class="card-footer">
+                            <a class="btn btn-outline-primary" asp-action="Dodaj" asp-route-id="@Model.RadniNalogId" ajax-poziv="da" ajax-rezultat="ajaxPoziv">Dodaj</a>
+                            <a class="btn btn-outline-secondary float-right" asp-controller="RadniNalog" asp-action="Index">Nazad</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

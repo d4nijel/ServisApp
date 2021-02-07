@@ -1,0 +1,57 @@
+﻿@{
+    ViewData["Title"] = "Izvještaji";
+}
+
+@model ServisApp.Areas.InzinjerModul.ViewModels.IzvjestajDetaljiVM
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-lightblue">
+                    <div class="card-header">
+                        <h3 class="card-title">Detalji o izvještaju za ispitivanje - @Model.NazivIspitivanjaOznaka - @Model.NazivIspitivanja</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label>Broj izvještaja</label>
+                                    <input type="text" class="form-control" value="@Model.BrojIzvjestaja" disabled />
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label>Datum kreiranja</label>
+                                    <input type="text" class="form-control" value="@Model.DatumKreiranja" disabled />
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label>Status</label>
+                                    <input type="text" class="form-control" value="@Model.IzvjestajStatus" disabled />
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label>Kreirao</label>
+                                    <input type="text" class="form-control" value="@Model.Korisnik" disabled />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Pregled dokumenta</label>
+                            <br />
+                            <a class="btn btn-app" asp-action="IzvjestajPDF" asp-route-file="@Model.IzvjestajPath" target="_blank">
+                                <i class="fas fa-file-pdf"></i>PDF
+                            </a>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <a class="btn btn-outline-secondary float-right" asp-action="Index" asp-controller="Ispitivanje" asp-route-id="@Model.RadniNalogId" ajax-poziv="da" ajax-rezultat="ajaxPoziv">Nazad</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

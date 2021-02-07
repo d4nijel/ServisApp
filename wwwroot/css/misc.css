@@ -1,0 +1,80 @@
+﻿.customPdfBtn {
+    background-image: url("../images/PDF_File_Extension.png");
+    background-repeat: no-repeat;
+    border: 1px solid #3c8dbc;
+    border-radius: 6px;
+    width: 48px;
+    height: 48px;
+    background-position: center;
+}
+
+.customPdfBtn-table:hover {
+    background-color: #3c8dbc;
+}
+
+/*custom validacijski error za checkbox liste*/
+.field-validation-error {
+    color: red;
+    font-size: smaller;
+}
+
+/*centriranje teksta u datatables*/
+th.dt-center, td.dt-center {
+    text-align: center;
+}
+
+th[colspan]:not([colspan="1"]) {
+    text-align: center;
+}
+
+.btn-app {
+    border: 1px solid #3c8dbc;
+}
+
+    .btn-app:hover {
+        border: 2px solid #3c8dbc;
+    }
+
+table.dataTable td, table.dataTable th {
+    vertical-align: middle;
+}
+
+table.dataTable th {
+    text-align: center;
+}
+
+#imgUpozorenje {
+    font-size: 75%;
+    font-style: italic;
+    font-weight: 400;
+}
+
+#uloge-error {
+    color: red;
+    font-size: smaller;
+    display: none;
+}
+
+#rn-tim-error {
+    color: red;
+    font-size: smaller;
+    display: none;
+}
+
+.custom-edit-image {
+    text-align: center;
+    padding-bottom:10px;
+}
+
+.btnRN {
+    background-color: #fff;
+    border-color: #fff;
+}
+
+.btnRN:disabled {
+    cursor: default;
+}
+
+.homeNaslov {
+    color: gray;
+}

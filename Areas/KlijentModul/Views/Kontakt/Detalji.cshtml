@@ -1,0 +1,114 @@
+﻿
+@{
+    ViewData["Title"] = "O nama";
+}
+
+@model ServisApp.Areas.KlijentModul.ViewModels.KlijentUrediVM
+
+@section Scripts {
+    <script>
+        var settings = {
+            validClass: "is-valid",
+            errorClass: "is-invalid"
+
+        };
+        $.validator.setDefaults(settings);
+        $.validator.unobtrusive.options = settings;
+    </script>
+}
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>O nama</h1>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card card-lightblue">
+                    <div class="card-header">
+                        <h3 class="card-title">Detalji o nama</h3>
+                    </div>
+                    <form role="form" asp-action="Edit" method="post" class="needs-validation" novalidate>
+                        <input asp-for="@Model.KlijentId" />
+                        <input asp-for="@Model.Naziv" />
+                        <input asp-for="@Model.IdBroj" />
+                        <input asp-for="@Model.Ulica" />
+                        <input asp-for="@Model.Sjediste" />
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-8">
+                                    <div class="form-group">
+                                        <label>Naziv</label>
+                                        <input type="text" class="form-control" value="@Model.Naziv" disabled />
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label>ID broj <a href="http://www.uino.gov.ba/b/Porezi/PDV_obveznici/" target="_blank"><i class="fa fa-info-circle"></i></a></label>
+                                        <input type="text" class="form-control" value="@Model.IdBroj" disabled />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label>Ulica</label>
+                                        <input type="text" class="form-control" value="@Model.Ulica" disabled />
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label>Sjedište</label>
+                                        <input type="text" class="form-control" value="@Model.Sjediste" disabled />
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label asp-for="KontaktOsoba">Kontakt osoba</label>
+                                        <input asp-for="KontaktOsoba" class="form-control" />
+                                        <span asp-validation-for="KontaktOsoba" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label asp-for="KontaktBrojFiksni">Fiksni telefon</label>
+                                        <input asp-for="KontaktBrojFiksni" class="form-control" />
+                                        <span asp-validation-for="KontaktBrojFiksni" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label asp-for="KontaktBrojMobitel">Mobitel</label>
+                                        <input asp-for="KontaktBrojMobitel" class="form-control" />
+                                        <span asp-validation-for="KontaktBrojMobitel" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label asp-for="KontaktEmail">Email</label>
+                                        <input asp-for="KontaktEmail" class="form-control" />
+                                        <span asp-validation-for="KontaktEmail" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <button type="submit" class="btn btn-outline-primary">Snimi</button>
+                                <a class="btn btn-outline-secondary float-right" asp-area="" asp-controller="Home" asp-action="Index">Nazad</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

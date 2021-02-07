@@ -1,0 +1,117 @@
+﻿.izvjestaj-box {
+    max-width: 1600px;
+    margin: auto;
+    padding: 30px;
+    border: 1px solid #eee;
+    box-shadow: 0 0 10px rgba(0, 0, 0, .15);
+    font-size: 16px;
+    line-height: 24px;
+    font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
+    color: #555;
+}
+
+    .izvjestaj-box table {
+        width: 100%;
+    }
+
+        .izvjestaj-box table td {
+            width: 50%;
+            vertical-align: bottom;
+        }
+
+            .izvjestaj-box table td.left {
+                text-align: left;
+            }
+
+                .izvjestaj-box table td.left img {
+                    width: 40%;
+                    max-width: 268px;
+                }
+
+            .izvjestaj-box table td.right {
+                text-align: right;
+            }
+
+        .izvjestaj-box table h4 {
+            color: #555;
+        }
+
+            .izvjestaj-box table h4 span {
+                color: black;
+            }
+
+.naslov {
+    margin: auto;
+    text-align: center;
+    letter-spacing: 6px;
+    color: black;
+}
+
+    .naslov h2 {
+        margin: 15px;
+    }
+
+.naslov2 {
+    margin: auto;
+    text-align: center;
+}
+
+    .naslov2 h4 {
+        margin: 15px;
+    }
+
+    .naslov2 span {
+        color: black;
+    }
+
+
+#izvjestaj {
+    border-collapse: collapse;
+    width: 100%;
+    text-align: center;
+}
+
+    #izvjestaj td, #izvjestaj th {
+        border: 1px solid #ddd;
+        padding: 8px;
+        width: auto;
+    }
+
+    #izvjestaj tbody tr td {
+        font-size: 90%;
+    }
+
+        #izvjestaj tbody tr td.danger {
+            color: red;
+            font-weight: bold;
+            font-size: 80%;
+        }
+
+        #izvjestaj tbody tr td.warning {
+            color: orange;
+            font-weight: bold;
+            font-size: 80%;
+        }
+
+        #izvjestaj tbody tr td.success {
+            color: green;
+            font-weight: bold;
+            font-size: 80%;
+        }
+
+
+    #izvjestaj th.spitem {
+        width: 30px;
+        font-size: 80%;
+    }
+
+    #izvjestaj tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    #izvjestaj th {
+        padding-top: 12px;
+        padding-bottom: 12px;
+        text-align: center;
+        background-color: #f2f2f2;
+    }

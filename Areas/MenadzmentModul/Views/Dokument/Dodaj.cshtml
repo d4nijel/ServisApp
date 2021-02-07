@@ -1,0 +1,126 @@
+﻿
+@{
+    ViewData["Title"] = "Dokumenti";
+}
+
+@model ServisApp.Areas.MenadzmentModul.ViewModels.DokumentDodajVM
+
+@section Scripts {
+    <script>
+        var settings = {
+            validClass: "is-valid",
+            errorClass: "is-invalid"
+
+        };
+        $.validator.setDefaults(settings);
+        $.validator.unobtrusive.options = settings;
+
+        $(function () {
+            $("#DatumIzdavanjaPicker").datetimepicker({
+                format: "DD.MM.YYYY"
+            });
+        });
+    </script>
+}
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Dokumenti</h1>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card card-lightblue">
+                    <div class="card-header">
+                        <h3 class="card-title">Dodavanje novog dokumenta</h3>
+                    </div>
+                    <form role="form" asp-action="Snimi" method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label asp-for="Naziv">Naziv</label>
+                                <textarea asp-for="Naziv" rows="3" class="form-control"></textarea>
+                                <span asp-validation-for="Naziv" class="text-danger"></span>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label asp-for="TipDokumenta">Tip dokumenta</label>
+                                        <select asp-for="TipDokumenta" class="form-control">
+                                            <option value="Zakon">Zakon</option>
+                                            <option value="Pravilnik">Pravilnik</option>
+                                            <option value="Ostalo">Ostalo</option>
+                                        </select>
+                                        <span asp-validation-for="TipDokumenta" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label asp-for="DatumIzdavanja">Datum izdavanja dokumenta</label>
+                                        <div class="input-group date" id="DatumIzdavanjaPicker" data-target-input="nearest">
+                                            <input type="text" asp-for="DatumIzdavanja" class="form-control datetimepicker-input" data-target="#DatumIzdavanjaPicker" onkeydown="return false" />
+                                            <div class="input-group-append" data-target="#DatumIzdavanjaPicker" data-toggle="datetimepicker">
+                                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                            </div>
+                                        </div>
+                                        <span asp-validation-for="DatumIzdavanja" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-8">
+                                    <div class="form-group">
+                                        <label asp-for="PravniIzvor">Pravni izvor <a href="http://www.sluzbenilist.ba/" target="_blank"><i class="fa fa-info-circle"></i></a></label>
+                                        <select asp-for="PravniIzvor" class="form-control">
+                                            <option value="Službeni list SRBiH">Službeni list SRBiH</option>
+                                            <option value="Službeni list RBiH">Službeni list RBiH</option>
+                                            <option value="Službene novine FBiH">Službene novine FBiH</option>
+                                            <option value="Službene novine Kantona Sarajevo">Službene novine Kantona Sarajevo</option>
+                                            <option value="Službeni glasnik Bosne i Hercegovine">Službeni glasnik Bosne i Hercegovine</option>
+                                            <option value="Službeni list SFRJ">Službeni list SFRJ</option>
+                                            <option value="Interni dokument">Interni dokument</option>
+                                        </select>
+                                        <span asp-validation-for="PravniIzvor" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label asp-for="BrojSluzbenogGlasila">Broj službenog glasila</label>
+                                        <input asp-for="BrojSluzbenogGlasila" class="form-control" />
+                                        <span asp-validation-for="BrojSluzbenogGlasila" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
+                                    <input class="custom-control-input" asp-for="DokumentStatus">
+                                    <label class="custom-control-label" asp-for="DokumentStatus">Status dokumenta</label>
+                                    <span asp-validation-for="DokumentStatus" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="Dokument">Dokument <span id="imgUpozorenje">(dozvoljeni format: .pdf, max. veličina: 2MB)</span></label>
+                                <div class="custom-file">
+                                    <input asp-for="Dokument" class="custom-file-input">
+                                    <label asp-for="Dokument" class="custom-file-label">Odaberite dokument</label>
+                                    <span asp-validation-for="Dokument" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <button type="submit" class="btn btn-outline-primary">Snimi</button>
+                                <a class="btn btn-outline-secondary float-right" asp-action="Index">Nazad</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,188 @@
+﻿
+@{
+    ViewData["Title"] = "Pregled poslova";
+}
+
+@model ServisApp.ViewModels.PregledIspitivanjaIndexVM
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#tblPregled tfoot th').each(function () {
+                if ($(this).hasClass("ColumnFilteringSpecKolona")) {
+                    $(this).html('<input type="text" style="text-align: center;width: 100%" placeholder="Pretraga" />');
+                }
+                else {
+                    $(this).html('');
+                }
+            });
+
+            var x = @Model.Usluge.Count()+5;
+
+            $.extend(jQuery.fn.dataTableExt.oSort, {
+                "nullNumber-asc": function (str1, str2) {
+                    var prvi = $(str1).text();
+                    var drugi = $(str2).text();
+
+                    if (prvi == "")
+                        return 1;
+                    if (drugi == "")
+                        return -1;
+
+                    var x = parseInt(prvi);
+                    var y = parseInt(drugi);
+
+                    return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+                },
+
+                "nullNumber-desc": function (str1, str2) {
+                    var prvi = $(str1).text();
+                    var drugi = $(str2).text();
+
+                    if (prvi == "")
+                        return 1;
+                    if (drugi == "")
+                        return -1;
+
+                    var x = parseInt(prvi);
+                    var y = parseInt(drugi);
+                    return ((x < y) ? 1 : ((x > y) ? -1 : 0));
+                }
+            });
+
+            var table = $('#tblPregled').DataTable({
+                responsive: true,
+                autoWidth: false,
+                language: {
+                    search: "Pretraga",
+                    emptyTable: "Nema podataka u tabeli",
+                    info: "Prikaz _START_ do _END_ od ukupno _TOTAL_ zapisa",
+                    infoEmpty: "Prikaz 0 do 0 od ukupno 0 zapisa",
+                    infoFiltered: "pronađeno od _MAX_ ukupna zapisa",
+                    lengthMenu: "Prikaži _MENU_ zapisa",
+                    loadingRecords: "Loading...",
+                    processing: "Processing...",
+                    zeroRecords: "Nije pronađen nijedan zapis",
+                    paginate: {
+                        first: "Prva",
+                        last: "Posljednja",
+                        next: "Naredna",
+                        previous: "Prethodna"
+                    }
+                },
+                columnDefs: [
+                    { orderable: false, targets: x },
+                    { className: "dt-center", targets: "_all" },
+                    { type: "nullNumber", targets: [5, 6, 7, 8, 9, 10, 11, 12, 13] }
+                ],
+                lengthMenu: [10, 15, 20],
+                order: [[1, "desc"]]
+            });
+
+            $("#tblPregled tfoot input").on('keyup change', function () {
+                table
+                    .column($(this).parent().index() + ':visible')
+                    .search(this.value)
+                    .draw();
+            });
+        });
+    </script>
+}
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Pregled poslova</h1>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card card-lightblue">
+                    <div class="card-header">
+                        <h3 class="card-title">Pregled informacija o izvršenim ispitivanjima i pregledima</h3>
+                    </div>
+                    <div class="card-body">
+                        <table id="tblPregled" class="table table-bordered table-striped display" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>Klijent</th>
+                                    <th>Objekat</th>
+                                    <th>Kanton</th>
+                                    <th>Općina</th>
+                                    <th>Mjesto</th>
+                                    @foreach (var item in Model.Usluge)
+                                    {
+                                        <th>@item.Value</th>
+                                    }
+                                    <th>Akcija</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var x in Model.Rows)
+                                {
+                                    <tr>
+                                        <td>@x.Klijent</td>
+                                        <td>@x.Objekat</td>
+                                        <td>@x.Kanton</td>
+                                        <td>@x.Opcina</td>
+                                        <td>@x.Mjesto</td>
+                                        @foreach (var item in x.BrojDanaDoIstekaUsluge)
+                                        {
+                                            if (item == -365)
+                                            {
+                                                <td></td>
+                                            }
+                                            else if (item < 0)
+                                            {
+                                                <td><span class="badge bg-danger">@item</span></td>
+                                            }
+                                            else if (item <= 20)
+                                            {
+                                                <td><span class="badge bg-warning">@item</span></td>
+                                            }
+                                            else
+                                            {
+                                                <td><span class="badge bg-success">@item</span></td>
+                                            }
+                                        }
+                                        <td>
+                                            <a class="btn btn-outline-info btn-sm" asp-controller="IzvrsenaIspitivanja" asp-action="DetaljiObjekta" asp-route-id="@x.ObjekatId">Detalji</a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th class="ColumnFilteringSpecKolona">Klijent</th>
+                                    <th class="ColumnFilteringSpecKolona">Objekat</th>
+                                    <th class="ColumnFilteringSpecKolona">Kanton</th>
+                                    <th class="ColumnFilteringSpecKolona">Općina</th>
+                                    <th class="ColumnFilteringSpecKolona">Mjesto</th>
+                                    @foreach (var item in Model.Usluge)
+                                    {
+                                        <th>@item.Value</th>
+                                    }
+                                    <th>Akcija</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                        <br />
+                        <div class="card-footer">
+                            <a class="btn btn-outline-primary" asp-controller="KreirajIzvjestaj" asp-action="OpciIzvjestaj">Opći izvještaj</a>
+                            <a class="btn btn-outline-primary" asp-controller="KreirajIzvjestaj" asp-action="IzvjestajKasnjenja">Izvještaj kašnjenja</a>
+                            <a class="btn btn-outline-secondary float-right" asp-area="" asp-controller="Home" asp-action="Index">Nazad</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

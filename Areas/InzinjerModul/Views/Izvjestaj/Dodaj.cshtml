@@ -1,0 +1,62 @@
+﻿
+@{
+    ViewData["Title"] = "Izvještaji";
+}
+
+@model ServisApp.Areas.InzinjerModul.ViewModels.IzvjestajDodajVM
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-lightblue">
+                    <div class="card-header">
+                        <h3 class="card-title">Dodavanje novog izvještaja za ispitivanje - @Model.NazivIspitivanjaOznaka - @Model.NazivIspitivanja</h3>
+                    </div>
+                    <form role="form" asp-action="Snimi" method="post" enctype="multipart/form-data" ajax-poziv="da" ajax-rezultat="ajaxPoziv" class="needs-validation" novalidate>
+                        <input asp-for="@Model.RadniNalogId" value="@Model.RadniNalogId" />
+                        <input asp-for="@Model.IspitivanjeId" value="@Model.IspitivanjeId" />
+                        <input asp-for="@Model.NazivIspitivanjaOznaka" value="@Model.NazivIspitivanjaOznaka" />
+                        <input asp-for="@Model.NazivIspitivanja" value="@Model.NazivIspitivanja" />
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label asp-for="BrojIzvjestaja">Broj izvještaja</label>
+                                <input asp-for="BrojIzvjestaja" class="form-control" />
+                                <span asp-validation-for="BrojIzvjestaja" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="DatumKreiranja">Datum kreiranja</label>
+                                <div class="input-group date" id="DatumKreiranjaIzvjestajaPicker" data-target-input="nearest">
+                                    <input type="text" asp-for="DatumKreiranja" class="form-control datetimepicker-input" data-target="#DatumKreiranjaIzvjestajaPicker" onkeydown="return false" />
+                                    <div class="input-group-append" data-target="#DatumKreiranjaIzvjestajaPicker" data-toggle="datetimepicker">
+                                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                    </div>
+                                </div>
+                                <span asp-validation-for="DatumKreiranja" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
+                                    <input class="custom-control-input" asp-for="IzvjestajStatus">
+                                    <label class="custom-control-label" asp-for="IzvjestajStatus">Status izvještaja</label>
+                                    <span asp-validation-for="IzvjestajStatus" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="Izvjestaj">Izvještaj <span id="imgUpozorenje">(dozvoljeni format: .pdf, max. veličina: 2MB)</span></label>
+                                <div class="custom-file">
+                                    <input asp-for="Izvjestaj" class="custom-file-input">
+                                    <label asp-for="Izvjestaj" class="custom-file-label">Odaberite dokument</label>
+                                    <span asp-validation-for="Izvjestaj" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <button type="submit" class="btn btn-outline-primary">Snimi</button>
+                                <a class="btn btn-outline-secondary float-right" asp-action="Index" asp-controller="Ispitivanje" asp-route-id="@Model.RadniNalogId" ajax-poziv="da" ajax-rezultat="ajaxPoziv">Nazad</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

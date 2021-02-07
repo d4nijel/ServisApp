@@ -1,0 +1,109 @@
+﻿
+@{
+    ViewData["Title"] = "Klijentski računi";
+}
+
+@model ServisApp.Areas.OrganizatorModul.ViewModels.KlijentskiRacunDodajVM
+
+@section Scripts {
+    <script>
+        var settings = {
+            validClass: "is-valid",
+            errorClass: "is-invalid"
+
+        };
+        $.validator.setDefaults(settings);
+        $.validator.unobtrusive.options = settings;
+    </script>
+}
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Klijentski računi</h1>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card card-lightblue">
+                    <div class="card-header">
+                        <h3 class="card-title">Dodavanje novog klijentskog računa za klijenta: <button class="btn btn-sm btnRN" disabled><strong style="color:black; font-size: 120%;">@Model.Klijent</strong></button></h3>
+                    </div>
+                    <form role="form" asp-action="Snimi" method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+                        <input asp-for="@Model.KlijentId" />
+                        <input asp-for="@Model.Klijent" />
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label asp-for="Ime">Ime</label>
+                                        <input asp-for="Ime" class="form-control" />
+                                        <span asp-validation-for="Ime" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label asp-for="Prezime">Prezime</label>
+                                        <input asp-for="Prezime" class="form-control" />
+                                        <span asp-validation-for="Prezime" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label asp-for="Email">Email</label>
+                                        <input asp-for="Email" class="form-control" />
+                                        <span asp-validation-for="Email" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label asp-for="KorisnickoIme">Korisničko ime</label>
+                                        <input asp-for="KorisnickoIme" class="form-control" />
+                                        <span asp-validation-for="KorisnickoIme" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label asp-for="Lozinka">Lozinka</label>
+                                        <input asp-for="Lozinka" class="form-control" autocomplete="new-password"/>
+                                        <span asp-validation-for="Lozinka" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label asp-for="LozinkaPotvrda">Potvrda lozinke</label>
+                                        <input asp-for="LozinkaPotvrda" class="form-control" />
+                                        <span asp-validation-for="LozinkaPotvrda" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="KlijentskiRacunSlika">Slika klijentskog računa <span id="imgUpozorenje">(preporučene dimenzije: 128x128px, max. veličina: 60KB, dozvoljeni formati: jpg, jpeg, png)</span></label>
+                                <div class="custom-file">
+                                    <input asp-for="KlijentskiRacunSlika" class="custom-file-input">
+                                    <label asp-for="KlijentskiRacunSlika" class="custom-file-label">Odaberite sliku</label>
+                                    <span asp-validation-for="KlijentskiRacunSlika" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <button type="submit" class="btn btn-outline-primary">Snimi</button>
+                                <a class="btn btn-outline-secondary float-right" asp-controller="Klijent" asp-action="Index">Nazad</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

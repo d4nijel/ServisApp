@@ -1,0 +1,116 @@
+﻿
+@{
+    ViewData["Title"] = "Objekti";
+}
+
+@model ServisApp.Areas.OrganizatorModul.ViewModels.ObjekatDetaljiVM
+
+@section Scripts {
+    <script>
+         $(document).ready(function () {
+             $.get("/IzvrsenaIspitivanja/Index?Id=@Model.ObjekatId", function (data) {
+                $("#ajaxPoziv").html(data);
+            });
+         });
+
+        $(document).ajaxComplete(function () {
+            $("#tblIzvrsenaIspitivanja").DataTable({
+                responsive: true,
+                autoWidth: false,
+                language: {
+                            search: "Pretraga",
+                            emptyTable: "Nema podataka u tabeli",
+                            info: "Prikaz _START_ do _END_ od ukupno _TOTAL_ zapisa",
+                            infoEmpty: "Prikaz 0 do 0 od ukupno 0 zapisa",
+                            infoFiltered: "pronađeno od _MAX_ ukupna zapisa",
+                            lengthMenu: "Prikaži _MENU_ zapisa",
+                            loadingRecords: "Loading...",
+                            processing: "Processing...",
+                            zeroRecords: "Nije pronađen nijedan zapis",
+                            paginate: {
+                                first: "Prva",
+                                last: "Posljednja",
+                                next: "Naredna",
+                                previous: "Prethodna"
+                            }
+                },
+                columnDefs: [
+                    { orderable: false, targets: 7 },
+                    { orderable: false, targets: 8 },
+                    { className: "dt-center", targets: "_all" },
+                    { type: "de_date", targets: 3 },
+                    { type: "de_date", targets: 4 }
+                ],
+                order: [[3, "desc"]],
+                lengthMenu: [5, 10, 20]
+            });
+        });
+    </script>
+}
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Objekti</h1>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-lightblue">
+                    <div class="card-header">
+                        <h3 class="card-title">Detalji o objektu: <button class="btn btn-sm btnRN" disabled><strong style="color:black; font-size: 120%;">@Model.Naziv, ul. @Model.Ulica, @Model.NazivMjesta</strong></button></h3>
+                    </div>
+                    <input asp-for="@Model.ObjekatId" />
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label>Klijent</label>
+                                    <input type="text" class="form-control" value="@Model.NazivKlijenta" disabled />
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="form-group">
+                                    <label>Kontakt osoba</label>
+                                    <input type="text" class="form-control" value="@Model.KontaktOsoba" disabled />
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="form-group">
+                                    <label>Fiksni telefon</label>
+                                    <input type="text" class="form-control" value="@Model.KontaktBrojFiksni" disabled />
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="form-group">
+                                    <label>Mobitel</label>
+                                    <input type="text" class="form-control" value="@Model.KontaktBrojMobitel" disabled />
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label>Email</label>
+                                    <input type="text" class="form-control" value="@Model.KontaktEmail" disabled />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
+                                <input class="custom-control-input" asp-for="ObjekatStatus" disabled>
+                                <label class="custom-control-label">Status objekta</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="ajaxPoziv"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,128 @@
+﻿
+@{
+    ViewData["Title"] = "Ponude";
+}
+
+@model ServisApp.Areas.OrganizatorModul.ViewModels.PonudaDodajVM
+
+@section Scripts {
+    <script>
+        var settings = {
+            validClass: "is-valid",
+            errorClass: "is-invalid"
+
+        };
+        $.validator.setDefaults(settings);
+        $.validator.unobtrusive.options = settings;
+
+        $(".select2bs4").select2({
+            theme: 'bootstrap4'
+        })
+
+        $("select").on("select2:close", function () {
+            $(this).valid();
+        });
+
+        moment.updateLocale("en", {
+            week: { dow: 1 } // Monday is the first day of the week
+        });
+
+        $(function () {
+            $("#DatumIzdavanjaPicker").datetimepicker({
+                format: "DD.MM.YYYY"
+            });
+        });
+    </script>
+}
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Ponude</h1>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card card-lightblue">
+                    <div class="card-header">
+                        <h3 class="card-title">Dodavanje nove ponude</h3>
+                    </div>
+                    <form role="form" asp-action="Snimi" method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label asp-for="BrojPonude">Broj ponude</label>
+                                        <input asp-for="BrojPonude" class="form-control" />
+                                        <span asp-validation-for="BrojPonude" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label asp-for="DatumIzdavanja">Datum kreiranja ponude</label>
+                                        <div class="input-group date" id="DatumIzdavanjaPicker" data-target-input="nearest">
+                                            <input type="text" asp-for="DatumIzdavanja" class="form-control datetimepicker-input" data-target="#DatumIzdavanjaPicker" onkeydown="return false" />
+                                            <div class="input-group-append" data-target="#DatumIzdavanjaPicker" data-toggle="datetimepicker">
+                                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                            </div>
+                                        </div>
+                                        <span asp-validation-for="DatumIzdavanja" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label asp-for="UkupanIznosBezPdv" asp-format="{0:N}">Ukupan iznos bez PDV (KM)</label>
+                                        <input asp-for="UkupanIznosBezPdv" class="form-control" />
+                                        <span asp-validation-for="UkupanIznosBezPdv" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label asp-for="PDV">PDV</label>
+                                        <input asp-for="PDV" class="form-control" />
+                                        <span asp-validation-for="PDV" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="KlijentId">Klijent</label>
+                                <select asp-for="KlijentId" asp-items="@Model.Klijenti" class="form-control select2bs4" style="width: 100%;">
+                                    <option value="0">(odaberite klijenta)</option>
+                                </select>
+                                <span asp-validation-for="KlijentId" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
+                                    <input class="custom-control-input" asp-for="PonudaStatus">
+                                    <label class="custom-control-label" asp-for="PonudaStatus">Status ponude</label>
+                                    <span asp-validation-for="PonudaStatus" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="Ponuda">Ponuda <span id="imgUpozorenje">(dozvoljeni format: .pdf, max. veličina: 2MB)</span></label>
+                                <div class="custom-file">
+                                    <input asp-for="Ponuda" class="custom-file-input">
+                                    <label asp-for="Ponuda" class="custom-file-label">Odaberite dokument</label>
+                                    <span asp-validation-for="Ponuda" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <button type="submit" class="btn btn-outline-primary">Snimi</button>
+                                <a class="btn btn-outline-secondary float-right" asp-action="Index">Nazad</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

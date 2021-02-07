@@ -1,0 +1,104 @@
+﻿
+@{
+    ViewData["Title"] = "Korisnički profil";
+}
+
+@model ServisApp.ViewModels.KorisnickiProfilUredi
+
+@section Scripts {
+    <script>
+        var settings = {
+            validClass: "is-valid",
+            errorClass: "is-invalid"
+
+        };
+        $.validator.setDefaults(settings);
+        $.validator.unobtrusive.options = settings;
+    </script>
+}
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Korisnički profil</h1>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card card-lightblue">
+                    <div class="card-header">
+                        <h3 class="card-title">Uređivanje podataka o korisniku</h3>
+                    </div>
+                    <form role="form" asp-action="Snimi" method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+                        <input asp-for="@Model.KorisnikId" value="@Model.KorisnikId" />
+                        <input asp-for="@Model.KorisnikSlikaPath" value="@Model.KorisnikSlikaPath" />
+                        <input asp-for="@Model.KorisnickoIme" value="@Model.KorisnickoIme" />
+                        <input asp-for="@Model.Ime" value="@Model.Ime" />
+                        <input asp-for="@Model.Prezime" value="@Model.Prezime" />
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-12 custom-edit-image">
+                                    <img class="profile-user-img img-fluid img-circle" src="@Model.KorisnikSlikaPath" width="128" height="128" alt="Slika korisnika">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Ime</label>
+                                        <input type="text" class="form-control" value="@Model.Ime" disabled />
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Prezime</label>
+                                        <input type="text" class="form-control" value="@Model.Prezime" disabled />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Korisničko ime</label>
+                                <input type="text" class="form-control" value="@Model.KorisnickoIme" disabled />
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label asp-for="Lozinka">Lozinka</label>
+                                        <input asp-for="Lozinka" class="form-control" autocomplete="new-password" />
+                                        <span asp-validation-for="Lozinka" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label asp-for="LozinkaPotvrda">Potvrda lozinke</label>
+                                        <input asp-for="LozinkaPotvrda" class="form-control" />
+                                        <span asp-validation-for="LozinkaPotvrda" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="KorisnikSlika">Slika korisnika <span id="imgUpozorenje">(preporučene dimenzije: 128x128px, max. veličina: 60KB, dozvoljeni formati: jpg, jpeg, png)</span></label>
+                                <div class="custom-file">
+                                    <input asp-for="KorisnikSlika" class="custom-file-input">
+                                    <label asp-for="KorisnikSlika" class="custom-file-label">Odaberite sliku</label>
+                                    <span asp-validation-for="KorisnikSlika" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <button type="submit" class="btn btn-outline-primary">Snimi</button>
+                                <a class="btn btn-outline-secondary float-right" asp-area="" asp-controller="Home" asp-action="Index">Nazad</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

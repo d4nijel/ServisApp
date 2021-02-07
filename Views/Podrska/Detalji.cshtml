@@ -1,0 +1,203 @@
+﻿
+@{
+    ViewData["Title"] = "Detalji zahtjeva";
+}
+
+@model ServisApp.Areas.KlijentModul.ViewModels.ZahtjevDetaljiVM
+
+@section Scripts {
+    <script>
+        var settings = {
+            validClass: "is-valid",
+            errorClass: "is-invalid"
+
+        };
+        $.validator.setDefaults(settings);
+        $.validator.unobtrusive.options = settings;
+    </script>
+}
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Zahtjevi</h1>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-lightblue">
+                    <div class="card-header">
+                        <h3 class="card-title">Detalji zahtjeva: "@Model.Naslov"</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            @if (Model.IsKorisnik)
+                            {
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label>Kategorija</label>
+                                        <input type="text" class="form-control" value="@Model.ZahtjevKategorija" disabled />
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <label>Kreirano</label>
+                                        <input type="text" class="form-control" value="@Model.DatumKreiranja" disabled />
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <label>Klijentski profil</label>
+                                        <input type="text" class="form-control" value="@Model.KlijentskiRacun" disabled />
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label>Klijent</label>
+                                        <input type="text" class="form-control" value="@Model.Klijent" disabled />
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label>Kategorija</label>
+                                        <input type="text" class="form-control" value="@Model.ZahtjevKategorija" disabled />
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label>Kreirano</label>
+                                        <input type="text" class="form-control" value="@Model.DatumKreiranja" disabled />
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label>Korisnik</label>
+                                        <input type="text" class="form-control" value="@Model.Korisnik" disabled />
+                                    </div>
+                                </div>
+                            }
+                            @if (Model.StatusZahtjevaId == 1)
+                            {
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <label>Status</label>
+                                        <input type="text" class="form-control" style="border: 1px solid #28a745;" value="@Model.StatusZahtjevaNaziv" disabled />
+                                    </div>
+                                </div>
+                            }
+                            else if (Model.StatusZahtjevaId == 2)
+                            {
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <label>Status</label>
+                                        <input type="text" class="form-control" style="border: 1px solid #ffc107;" value="@Model.StatusZahtjevaNaziv" disabled />
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <label>Status</label>
+                                        <input type="text" class="form-control" style="border: 1px solid #dc3545;" value="@Model.StatusZahtjevaNaziv" disabled />
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label>Opis</label>
+                                    <textarea rows="6" class="form-control" disabled>@Model.Opis</textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            @if (Model.Zakljucaj)
+                            {
+                                <a class="btn btn-outline-primary" asp-controller="ArhivirajZahtjev" asp-action="Zakljucaj" asp-route-id="@Model.ZahtjevId">Arhiviraj</a>
+                            }
+                            @if (Model.IsArhiva)
+                            {
+                                <a class="btn btn-outline-secondary float-right" asp-action="Arhiva">Nazad</a>
+                            }
+                            else
+                            {
+                                <a class="btn btn-outline-secondary float-right" asp-action="Index">Nazad</a>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <!-- DIRECT CHAT -->
+                <div class="card direct-chat direct-chat-primary card-lightblue">
+                    <div class="card-header">
+                        <h3 class="card-title">Poruke</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="direct-chat-messages">
+                            @foreach (var item in Model.ListaPoruka)
+                            {
+                                if (item.KlijentskiRacun)
+                                {
+                                    <!-- Message. Default to the left -->
+                                    <div class="direct-chat-msg">
+                                        <div class="direct-chat-infos clearfix">
+                                            <span class="direct-chat-name float-left">@item.KlijentskiRacunNaziv</span>
+                                            <span class="direct-chat-timestamp float-right">@item.DatumKreiranja</span>
+                                        </div>
+                                        <img class="direct-chat-img" src="@item.KlijentskiRacunSlikaPath" alt="Slika Korisnickog profila">
+                                        <div class="direct-chat-text">
+                                            @item.Sadrzaj
+                                        </div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <!-- Message to the right -->
+                                    <div class="direct-chat-msg right">
+                                        <div class="direct-chat-infos clearfix">
+                                            <span class="direct-chat-name float-right">@item.KorisnikNaziv</span>
+                                            <span class="direct-chat-timestamp float-left">@item.DatumKreiranja</span>
+                                        </div>
+                                        <img class="direct-chat-img" src="@item.KorisnikSlikaPath" alt="Slika Korisnika">
+                                        <div class="direct-chat-text">
+                                            @item.Sadrzaj
+                                        </div>
+                                    </div>
+                                }
+                            }
+                        </div>
+                    </div>
+                    @if (Model.StatusZahtjevaId != 3)
+                    {
+                        <div class="card-footer">
+                            <form asp-action="SnimiPoruku" method="post" class="needs-validation" novalidate>
+                                <input asp-for="@Model.ZahtjevId" />
+                                <div class="input-group">
+                                    <input type="text" name="sadrzaj" placeholder="Upišite poruku ..." class="form-control" required>
+                                    <span class="input-group-append">
+                                        <button type="submit" class="btn btn-primary">Pošalji</button>
+                                    </span>
+                                </div>
+                            </form>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

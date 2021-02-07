@@ -1,0 +1,96 @@
+﻿
+@{
+    ViewData["Title"] = "Objekti";
+}
+
+@model ServisApp.Areas.OrganizatorModul.ViewModels.ObjekatDetaljiVM
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Objekti</h1>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card card-lightblue">
+                    <div class="card-header">
+                        <h3 class="card-title">Detalji o objektu</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label>Naziv</label>
+                                    <input type="text" class="form-control" value="@Model.Naziv" disabled />
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label>Ulica</label>
+                                    <input type="text" class="form-control" value="@Model.Ulica" disabled />
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label>Kontakt osoba</label>
+                                    <input type="text" class="form-control" value="@Model.KontaktOsoba" disabled />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Klijent</label>
+                                    <input type="text" class="form-control" value="@Model.NazivKlijenta" disabled />
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Lokacija</label>
+                                    <input type="text" class="form-control" value="@Model.NazivMjesta" disabled />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label>Fiksni telefon</label>
+                                    <input type="text" class="form-control" value="@Model.KontaktBrojFiksni" disabled />
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label>Mobitel</label>
+                                    <input type="text" class="form-control" value="@Model.KontaktBrojMobitel" disabled />
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label>Email</label>
+                                    <input type="text" class="form-control" value="@Model.KontaktEmail" disabled />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
+                                <input class="custom-control-input" asp-for="ObjekatStatus" disabled>
+                                <label class="custom-control-label">Status objekta</label>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <a class="btn btn-outline-secondary float-right" asp-action="Index">Nazad</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,128 @@
+﻿
+@{
+    ViewData["Title"] = "Opći izvjestaj";
+}
+
+@model ServisApp.ViewModels.KreirajIzvjestajIndexVM
+
+@section Scripts {
+    <script>
+        var settings = {
+            validClass: "is-valid",
+            errorClass: "is-invalid"
+
+        };
+
+        $.validator.setDefaults(settings);
+        $.validator.unobtrusive.options = settings;
+
+        $(".select2bs4").select2({
+            theme: 'bootstrap4'
+        })
+
+        $("select").on("select2:close", function () {
+            $(this).valid();
+        });
+
+        var KantoniOpcine = function () {
+            var url = "/KreirajIzvjestaj/GetListaOpcina";
+            var source = "#KantonId";
+            $.getJSON(url, { KantonId: $(source).val() }, function (data) {
+                var items = "<option value='0'>" + "(odaberite sve općine)" + "</option>";
+                $("#OpcinaId").empty();
+                $("#OpcinaId").attr("disabled", false);
+                $("#OpcinaId").attr("hidden", false);
+                $.each(data, function (i, opcine) {
+                    items += "<option value='" + opcine.value + "'>" + opcine.text + "</option>";
+                });
+                $("#OpcinaId").html(items);
+            });
+        };
+        $(document).ready(function () {
+            $("#KantonId").change(function () {
+                KantoniOpcine()
+            });
+        });
+    </script>
+}
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Izvještaji</h1>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card card-lightblue">
+                    <div class="card-header">
+                        <h3 class="card-title">Kreiranje novog općeg izvještaja</h3>
+                    </div>
+                    <form role="form" asp-action="KreirajOpciIzvjestaj" method="post" class="needs-validation" novalidate>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label asp-for="KlijentId">Klijent</label>
+                                        @if (Model.IsKlijent)
+                                        {
+                                            <input asp-for="@Model.KlijentId" hidden />
+                                            <input type="text" class="form-control" value="@Model.KlijentNaziv" disabled />
+                                        }
+                                        else
+                                        {
+                                            <select asp-for="KlijentId" asp-items="@Model.Klijenti" class="form-control select2bs4" style="width: 100%;">
+                                                <option value="0">(odaberite sve klijente)</option>
+                                            </select>
+                                            <span asp-validation-for="KlijentId" class="text-danger"></span>
+                                        }
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label asp-for="KantonId">Kanton</label>
+                                        <select asp-for="KantonId" asp-items="@Model.Kantoni" class="form-control select2bs4" style="width: 100%;">
+                                            <option value="0">(odaberite sve kantone)</option>
+                                        </select>
+                                        <span asp-validation-for="KantonId" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label asp-for="NazivIspitivanjaId">Usluga</label>
+                                        <select asp-for="NazivIspitivanjaId" asp-items="@Model.NaziviIspitivanja" class="form-control select2bs4" style="width: 100%;">
+                                            <option value="0">(odaberite sve usluge)</option>
+                                        </select>
+                                        <span asp-validation-for="NazivIspitivanjaId" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label asp-for="OpcinaId">Općina</label>
+                                        <select asp-for="OpcinaId" asp-items="@Model.Opcine" class="form-control select2bs4" style="width: 100%;">
+                                            <option value="0">(odaberite sve općine)</option>
+                                        </select>
+                                        <span asp-validation-for="OpcinaId" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <button type="submit" class="btn btn-outline-primary">Kreiraj</button>
+                                <a class="btn btn-outline-secondary float-right" asp-controller="PregledIspitivanja" asp-action="Index">Nazad</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

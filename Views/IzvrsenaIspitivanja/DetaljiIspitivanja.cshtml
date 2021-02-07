@@ -1,0 +1,60 @@
+﻿@{
+    ViewData["Title"] = "Ispitivanja";
+}
+
+@model ServisApp.Areas.InzinjerModul.ViewModels.IspitivanjeDetaljiVM
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-lightblue">
+                    <div class="card-header">
+                        <h3 class="card-title">Detalji o ispitivanju - @Model.NazivIspitivanjaOznaka - @Model.NazivIspitivanja</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label>Naziv ispitivanja</label>
+                                    <input type="text" class="form-control" value="@Model.NazivIspitivanja" disabled />
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="form-group">
+                                    <label>Tip ispitivanja</label>
+                                    <input type="text" class="form-control" value="@Model.TipIspitivanja" disabled />
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="form-group">
+                                    <label>Datum ispitivanja</label>
+                                    <input type="text" class="form-control" value="@Model.DatumIspitivanja" disabled />
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="form-group">
+                                    <label>Datum narednog ispitivanja</label>
+                                    <input type="text" class="form-control" value="@Model.DatumNarednogIspitivanja" disabled />
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="form-group">
+                                    <label>Broj dana do isteka</label>
+                                    <input type="text" class="form-control" value="@Model.BrojDanaDoNarednogIspitivanja" disabled />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Napomena</label>
+                            <textarea asp-for="Napomena" rows="3" class="form-control" disabled></textarea>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <a class="btn btn-outline-secondary float-right" asp-action="Index" asp-controller="IzvrsenaIspitivanja" asp-route-id="@Model.ObjekatId" ajax-poziv="da" ajax-rezultat="ajaxPoziv">Nazad</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

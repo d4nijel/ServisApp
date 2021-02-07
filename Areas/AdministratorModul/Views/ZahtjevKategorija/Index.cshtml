@@ -1,0 +1,101 @@
+﻿
+@{
+    ViewData["Title"] = "Kategorije zahtjeva";
+    int brojac = 1;
+}
+
+@model ServisApp.Areas.AdministratorModul.ViewModels.ZahtjevKategorijaIndexVM
+
+@section Scripts {
+    <script>
+        $(function () {
+            $("#tblZahtjevKategorije").DataTable({
+                responsive: true,
+                autoWidth: false,
+                language: {
+                    search: "Pretraga",
+                    emptyTable: "Nema podataka u tabeli",
+                    info: "Prikaz _START_ do _END_ od ukupno _TOTAL_ zapisa",
+                    infoEmpty: "Prikaz 0 do 0 od ukupno 0 zapisa",
+                    infoFiltered: "pronađeno od _MAX_ ukupna zapisa",
+                    lengthMenu: "Prikaži _MENU_ zapisa",
+                    loadingRecords: "Loading...",
+                    processing: "Processing...",
+                    zeroRecords: "Nije pronađen nijedan zapis",
+                    paginate: {
+                        first: "Prva",
+                        last: "Posljednja",
+                        next: "Naredna",
+                        previous: "Prethodna"
+                    }
+                },
+                columnDefs: [
+                    { orderable: false, targets: 3 },
+                    { className: "dt-center", targets: [0, 1] }
+                ],
+                lengthMenu: [5, 10],
+                order: [[0, "asc"]]
+            });
+        });
+    </script>
+}
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Kategorije zahtjeva</h1>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card card-lightblue">
+                    <div class="card-header">
+                        <h3 class="card-title">Prikaz svih kategorija zahtjeva</h3>
+                    </div>
+                    <div class="card-body">
+                        <table id="tblZahtjevKategorije" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Red. br.</th>
+                                    <th>Naziv</th>
+                                    <th>Opis</th>
+                                    <th>Akcija</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var x in Model.Rows)
+                                {
+                                    <tr>
+                                        <th scope="row">@(brojac++)</th>
+                                        <td>@x.Naziv</td>
+                                        <td>@x.Opis</td>
+                                        <td>
+                                            <a class="btn btn-outline-info btn-sm" asp-action="Uredi" asp-route-id="@x.ZahtjevKategorijaId">Uredi</a>
+                                            @if (x.DeleteBtn)
+                                            {
+                                                <a class="btn btn-outline-danger btn-sm" asp-action="Obrisi" asp-route-id="@x.ZahtjevKategorijaId">Obriši</a>
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                        <br />
+                        <div class="card-footer">
+                            <a class="btn btn-outline-primary" asp-action="Dodaj">Dodaj</a>
+                            <a class="btn btn-outline-secondary float-right" asp-area="" asp-controller="Home" asp-action="Index">Nazad</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,85 @@
+﻿
+@{
+    ViewData["Title"] = "Prijava";
+    string error_poruka = (string)TempData["error_poruka"];
+    Layout = "AdminLTELogin";
+}
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $.validator.setDefaults();
+            $("#loginForma").validate({
+                rules: {
+                    KorisnickoIme: {
+                        required: true,
+                    },
+                    Lozinka: {
+                        required: true,
+                        minlength: 8
+                    }
+                },
+                messages: {
+                    KorisnickoIme: {
+                        required: "Unesite korisničko ime"
+                    },
+                    Lozinka: {
+                        required: "Unesite lozinku",
+                        minlength: "Vaša lozinka mora sadržavati minimalno 3 karaktera"
+                    }
+                },
+                errorElement: "span",
+                errorPlacement: function (error, element) {
+                    error.addClass("invalid-feedback");
+                    element.closest(".input-group").append(error);
+                },
+                highlight: function (element, errorClass, validClass) {
+                    $(element).addClass("is-invalid");
+                },
+                unhighlight: function (element, errorClass, validClass) {
+                    $(element).removeClass("is-invalid");
+                }
+            });
+        });
+    </script>
+}
+@model ServisApp.ViewModels.AutentifikacijaVM
+
+<form asp-action="Prijava" asp-controller="Autentifikacija" method="post" id="loginForma">
+    <div class="input-group mb-3">
+        <input asp-for="KorisnickoIme" class="form-control" placeholder="Korisničko ime">
+        <div class="input-group-append">
+            <div class="input-group-text">
+                <span class="fas fa-user-circle"></span>
+            </div>
+        </div>
+    </div>
+    <div class="input-group mb-3">
+        <input asp-for="Lozinka" class="form-control" placeholder="Lozinka" />
+        <div class="input-group-append">
+            <div class="input-group-text">
+                <span class="fas fa-lock"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-8">
+            <div class="icheck-primary">
+                <input asp-for="ZapamtiLozinku" id="remember">
+                <label for="remember">
+                    Zapamti me
+                </label>
+            </div>
+        </div>
+        <div class="col-4">
+            <button type="submit" class="btn btn-primary btn-block">Prijavi se</button>
+        </div>
+    </div>
+</form>
+@if (error_poruka != null)
+{
+    <br />
+    <div style="text-align:center" class="alert alert-danger">
+        @error_poruka
+    </div>
+}

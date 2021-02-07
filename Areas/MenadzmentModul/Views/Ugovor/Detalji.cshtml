@@ -1,0 +1,97 @@
+﻿
+@{
+    ViewData["Title"] = "Ugovori";
+}
+
+@model ServisApp.Areas.MenadzmentModul.ViewModels.UgovorDetaljiVM
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Ugovori</h1>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card card-lightblue">
+                    <div class="card-header">
+                        <h3 class="card-title">Detalji o ugovoru</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-8">
+                                <div class="form-group">
+                                    <label>Naziv</label>
+                                    <input type="text" class="form-control" value="@Model.Naziv" disabled />
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label>Broj ugovora</label>
+                                    <input type="text" class="form-control" value="@Model.BrojUgovora" disabled />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Datum potpisivanja ugovora</label>
+                                    <input type="text" class="form-control" value="@Model.DatumPotpisivanja" disabled />
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Datum isteka ugovora</label>
+                                    <input type="text" class="form-control" value="@Model.DatumIsteka" disabled />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-9">
+                                <div class="form-group">
+                                    <label>Klijent</label>
+                                    <input type="text" class="form-control" value="@Model.Klijent" disabled />
+                                </div>
+                            </div>
+                            @if (Model.UgovorStatus)
+                            {
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label for="statusAktivan">Status</label>
+                                        <input id="statusAktivan" class="form-control" style="border: 1px solid #28a745;" disabled value="Aktivan" />
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label for="statusIstekao">Status</label>
+                                        <input id="statusIstekao" class="form-control" style="border: 1px solid #dc3545;" disabled value="Istekao" />
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                        <div class="form-group">
+                            <label>Pregled dokumenta</label>
+                            <br />
+                            <a class="btn btn-app" asp-action="UgovorPDF" asp-route-file="@Model.UgovorPath" target="_blank">
+                                <i class="fas fa-file-pdf"></i>PDF
+                            </a>
+                        </div>
+                        <div class="card-footer">
+                            <a class="btn btn-outline-secondary float-right" asp-action="Index">Nazad</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

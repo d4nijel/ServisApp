@@ -1,0 +1,125 @@
+﻿
+@{
+    ViewData["Title"] = "Radni nalozi";
+}
+
+@model ServisApp.Areas.InzinjerModul.ViewModels.RadniNalogIndexVM
+
+@section Scripts {
+    <script>
+        $(function () {
+            $("#tblRadniNalozi").DataTable({
+                responsive: true,
+                autoWidth: false,
+                language: {
+                    search: "Pretraga",
+                    emptyTable: "Nema podataka u tabeli",
+                    info: "Prikaz _START_ do _END_ od ukupno _TOTAL_ zapisa",
+                    infoEmpty: "Prikaz 0 do 0 od ukupno 0 zapisa",
+                    infoFiltered: "pronađeno od _MAX_ ukupna zapisa",
+                    lengthMenu: "Prikaži _MENU_ zapisa",
+                    loadingRecords: "Loading...",
+                    processing: "Processing...",
+                    zeroRecords: "Nije pronađen nijedan zapis",
+                    paginate: {
+                        first: "Prva",
+                        last: "Posljednja",
+                        next: "Naredna",
+                        previous: "Prethodna"
+                    }
+                },
+                columnDefs: [
+                    { orderable: false, targets: 8 },
+                    { className: "dt-center", targets: [0, 1, 2, 3, 4, 5, 6, 7] },
+                    { type: "de_datetime", targets: 3 },
+                    { type: "de_datetime", targets: 4 }
+                ],
+                lengthMenu: [10, 20, 50],
+                order: [[3, "desc"]]
+            });
+        });
+    </script>
+}
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Radni nalozi</h1>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card card-lightblue">
+                    <div class="card-header">
+                        <h3 class="card-title">Prikaz svih radnih naloga</h3>
+                    </div>
+                    <div class="card-body">
+                        <table id="tblRadniNalozi" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Br. r.n.</th>
+                                    <th>Klijent</th>
+                                    <th>Objekat</th>
+                                    <th>Početak radova</th>
+                                    <th>Završetak radova</th>
+                                    <th>Sati rada</th>
+                                    <th>Br. ispitivanja</th>
+                                    <th>Nedostaje izvještaja</th>
+                                    <th>Akcija</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var x in Model.Rows)
+                                {
+                                    <tr>
+                                        <td>@x.BrojRadnogNaloga</td>
+                                        <td>@x.NazivKlijenta</td>
+                                        <td>@x.NazivObjekta</td>
+                                        <td>@x.DatumPocetkaRadova</td>
+                                        <td>@x.DatumZavrsetkaRadova</td>
+                                        <td>@x.UkupnoSatiRada</td>
+                                        @if (x.BrojIspitivanja == 0)
+                                        {
+                                            <td><span class="badge bg-warning">@x.BrojIspitivanja</span></td>
+                                            <td><span class="badge bg-warning">@x.NedostajeIzvjestaja</span></td>
+                                        }
+                                        else if (x.BrojIspitivanja > 0 && x.NedostajeIzvjestaja == 0)
+                                        {
+                                            <td>@x.BrojIspitivanja</td>
+                                            <td><span class="badge bg-success">@x.NedostajeIzvjestaja</span></td>
+                                        }
+                                        else
+                                        {
+                                            <td>@x.BrojIspitivanja</td>
+                                            <td><span class="badge bg-danger">@x.NedostajeIzvjestaja</span></td>
+                                        }
+                                        <td>
+                                            <a class="btn btn-outline-info btn-sm" asp-action="Detalji" asp-route-id="@x.RadniNalogId">Detalji</a>
+                                            @if (x.DeleteBtn)
+                                            {
+                                                <a class="btn btn-outline-danger btn-sm" asp-action="Obrisi" asp-route-id="@x.RadniNalogId">Obriši</a>
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                        <br />
+                        <div class="card-footer">
+                            <a class="btn btn-outline-primary" asp-action="Dodaj">Dodaj</a>
+                            <a class="btn btn-outline-secondary float-right" asp-area="" asp-controller="Home" asp-action="Index">Nazad</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

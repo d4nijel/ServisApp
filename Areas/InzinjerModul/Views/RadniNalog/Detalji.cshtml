@@ -1,0 +1,160 @@
+﻿
+@{
+    ViewData["Title"] = "Radni nalozi";
+}
+
+@model ServisApp.Areas.InzinjerModul.ViewModels.RadniNalogDetaljiVM
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $.get("/InzinjerModul/Ispitivanje/Index?Id=@Model.RadniNalogId", function (data) {
+                $("#ajaxPoziv").html(data);
+            });
+        });
+
+        $(document).ajaxComplete(function () {
+
+            $("#tblIspitivanja").DataTable({
+                retrieve: true,
+                responsive: true,
+                autoWidth: false,
+                language: {
+                    search: "Pretraga",
+                    emptyTable: "Nema podataka u tabeli",
+                    info: "Prikaz _START_ do _END_ od ukupno _TOTAL_ zapisa",
+                    infoEmpty: "Prikaz 0 do 0 od ukupno 0 zapisa",
+                    infoFiltered: "pronađeno od _MAX_ ukupna zapisa",
+                    lengthMenu: "Prikaži _MENU_ zapisa",
+                    loadingRecords: "Loading...",
+                    processing: "Processing...",
+                    zeroRecords: "Nije pronađen nijedan zapis",
+                    paginate: {
+                        first: "Prva",
+                        last: "Posljednja",
+                        next: "Naredna",
+                        previous: "Prethodna"
+                    }
+                },
+                columnDefs: [
+                    { orderable: false, targets: 6 },
+                    { orderable: false, targets: 7 },
+                    { orderable: false, targets: 8 },
+                    { className: "dt-center", targets: "_all" },
+                    { type: "de_date", targets: 2 },
+                    { type: "de_date", targets: 3 }
+                ],
+                lengthMenu: [5, 10],
+                order: [[0, "asc"]]
+            });
+
+            moment.updateLocale("en", {
+                week: { dow: 1 } // Monday is the first day of the week
+            });
+
+            $("#DatumIspitivanjaPicker").datetimepicker({
+                format: "DD.MM.YYYY"
+            });
+
+            $("#DatumKreiranjaIzvjestajaPicker").datetimepicker({
+                format: "DD.MM.YYYY"
+            });
+
+            var form = $("#ajaxPoziv").find("form")[0];
+
+            if (form != undefined) {
+
+                var settings = {
+                    validClass: "is-valid",
+                    errorClass: "is-invalid"
+                };
+
+                $.validator.setDefaults(settings);
+                $.validator.unobtrusive.options = settings;
+
+                $.validator.unobtrusive.parse(form);
+            }
+        });
+    </script>
+}
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-12">
+                <h1>Radni nalozi</h1>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-lightblue">
+                    <div class="card-header">
+                        <h3 class="card-title">Detalji o radnom nalogu broj: <button class="btn btn-sm btnRN" disabled><strong style="color:black; font-size: 120%;">@Model.BrojRadnogNaloga</strong></button></h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-7">
+                                <div class="form-group">
+                                    <label>Klijent</label>
+                                    <input type="text" class="form-control" value="@Model.NazivKlijenta" disabled />
+                                </div>
+                                <div class="form-group">
+                                    <label>Objekat</label>
+                                    <input type="text" class="form-control" value="@Model.NazivObjekta" disabled />
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label>Početak radova</label>
+                                            <input type="text" class="form-control" value="@Model.DatumPocetkaRadova" disabled />
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label>Završetak radova</label>
+                                            <input type="text" class="form-control" value="@Model.DatumZavrsetkaRadova" disabled />
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label>Ukupni sati rada</label>
+                                            <input type="text" class="form-control" value="@Model.UkupnoSatiRada" disabled />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label>Tim koji je izvršio posao</label>
+                                    <ol>
+                                        @foreach (var clan in Model.ClanoviServisa)
+                                        {
+                                            <li>@clan</li>
+                                        }
+                                    </ol>
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="form-group">
+                                    <label>Pregled dokumenta</label>
+                                    <br />
+                                    <a class="btn btn-app" asp-action="RadniNalogPDF" asp-route-file="@Model.RadniNalogPath" target="_blank">
+                                        <i class="fas fa-file-pdf"></i>PDF
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="ajaxPoziv"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,189 @@
+﻿
+@{
+    ViewData["Title"] = "Radni nalozi";
+}
+
+@model ServisApp.Areas.InzinjerModul.ViewModels.RadniNalogDodajVM
+
+@section Scripts {
+    <script>
+        var settings = {
+            validClass: "is-valid",
+            errorClass: "is-invalid"
+
+        };
+        $.validator.setDefaults(settings);
+        $.validator.unobtrusive.options = settings;
+
+        var declarationsError = $("#rn-tim-error");
+
+        $("form").submit(function () {
+            if ($(".rn-tim:checkbox:checked").length > 0) {
+                declarationsError.hide();
+                return true;
+            }
+            else {
+                declarationsError.show();
+                return false;
+            }
+        });
+
+        $(".rn-tim").change(function () {
+            var el = $(".rn-tim");
+            var atLeastOneChecked = false;
+
+            for (i = 0; i < el.length; i++) {
+                if (el[i].checked === true) {
+                    atLeastOneChecked = true;
+                }
+            }
+
+            if (atLeastOneChecked === true) {
+                for (i = 0; i < el.length; i++) {
+                    el[i].required = false;
+                }
+
+                el.removeClass("is-invalid");
+                el.addClass("is-valid");
+
+                declarationsError.hide();
+            }
+            else {
+                for (i = 0; i < el.length; i++) {
+                    el[i].required = true;
+                }
+
+                el.removeClass("is-valid");
+                el.addClass("is-invalid");
+
+                declarationsError.show();
+            }
+        });
+
+        $(document).ready(function () {
+            if ($(".rn-tim").is(":checked")) {
+                $(".rn-tim").prop('required', false);
+            }
+        });
+
+        $(".select2bs4").select2({
+            theme: "bootstrap4"
+        })
+
+        $("select").on("select2:close", function () {
+            $(this).valid();
+        });
+
+        moment.updateLocale("en", {
+            week: { dow: 1 } // Monday is the first day of the week
+        });
+
+        $("#DatumPocetkaRadovaPicker").datetimepicker({
+            format: "DD.MM.YYYY HH:mm",
+            icons: {
+                time: "fa fa-clock"
+            }
+        });
+
+        $("#DatumZavrsetkaRadovaPicker").datetimepicker({
+            format: "DD.MM.YYYY HH:mm",
+            icons: {
+                time: "fa fa-clock"
+            }
+        });
+    </script>
+}
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Radni nalozi</h1>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card card-lightblue">
+                    <div class="card-header">
+                        <h3 class="card-title">Dodavanje novog radnog naloga</h3>
+                    </div>
+                    <form role="form" asp-action="Snimi" method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label asp-for="BrojRadnogNaloga">Broj radnog naloga</label>
+                                <input asp-for="BrojRadnogNaloga" class="form-control" />
+                                <span asp-validation-for="BrojRadnogNaloga" class="text-danger"></span>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label asp-for="DatumPocetkaRadova">Datum i vrijeme početka radova</label>
+                                        <div class="input-group date" id="DatumPocetkaRadovaPicker" data-target-input="nearest">
+                                            <input type="text" asp-for="DatumPocetkaRadova" class="form-control datetimepicker-input" data-target="#DatumPocetkaRadovaPicker" onkeydown="return false" />
+                                            <div class="input-group-append" data-target="#DatumPocetkaRadovaPicker" data-toggle="datetimepicker">
+                                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                            </div>
+                                        </div>
+                                        <span asp-validation-for="DatumPocetkaRadova" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label asp-for="DatumZavrsetkaRadova">Datum i vrijeme završetka radova</label>
+                                        <div class="input-group date" id="DatumZavrsetkaRadovaPicker" data-target-input="nearest">
+                                            <input type="text" asp-for="DatumZavrsetkaRadova" class="form-control datetimepicker-input" data-target="#DatumZavrsetkaRadovaPicker" onkeydown="return false" />
+                                            <div class="input-group-append" data-target="#DatumZavrsetkaRadovaPicker" data-toggle="datetimepicker">
+                                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                            </div>
+                                        </div>
+                                        <span asp-validation-for="DatumZavrsetkaRadova" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="ObjekatId">Objekat</label>
+                                <select asp-for="ObjekatId" asp-items="@Model.Objekti" class="form-control select2bs4" style="width: 100%;">
+                                    <option value="0">(odaberite objekat)</option>
+                                </select>
+                                <span asp-validation-for="ObjekatId" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="ClanoviServisa">Tim koji je izvršio posao</label>
+                                <br />
+                                @for (int i = 0; i < Model.ClanoviServisa.Count; i++)
+                                {
+                                    <div class="form-check">
+                                        <input type="hidden" asp-for="@Model.ClanoviServisa[i].Value" />
+                                        <input asp-for="@Model.ClanoviServisa[i].Selected" class="rn-tim form-check-input" required />
+                                        <label class="form-check-label">@Model.ClanoviServisa[i].Text</label>
+                                        <br />
+                                    </div>
+                                }
+                                <span id="rn-tim-error" class="text-danger">Odaberite bar jednog člana tima</span>
+                            </div>
+                            <div class="form-group">
+                                <label for="RadniNalog">Radni nalog <span id="imgUpozorenje">(dozvoljeni format: .pdf, max. veličina: 2MB)</span></label>
+                                <div class="custom-file">
+                                    <input asp-for="RadniNalog" class="custom-file-input">
+                                    <label asp-for="RadniNalog" class="custom-file-label">Odaberite dokument</label>
+                                    <span asp-validation-for="RadniNalog" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <button type="submit" class="btn btn-outline-primary">Snimi</button>
+                                <a class="btn btn-outline-secondary float-right" asp-action="Index">Nazad</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

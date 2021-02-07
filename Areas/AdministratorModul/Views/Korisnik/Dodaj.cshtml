@@ -1,0 +1,162 @@
+﻿
+@{
+    ViewData["Title"] = "Korisnici";
+}
+
+@model ServisApp.Areas.AdministratorModul.ViewModels.KorisnikDodajVM
+
+@section Scripts {
+    <script>
+        var settings = {
+            validClass: "is-valid",
+            errorClass: "is-invalid"
+
+        };
+        $.validator.setDefaults(settings);
+        $.validator.unobtrusive.options = settings;
+
+        var declarationsError = $("#uloge-error");
+
+        $("form").submit(function () {
+            if ($(".korisnik-uloge:checkbox:checked").length > 0) {
+                declarationsError.hide();
+                return true;
+            }
+            else {
+                declarationsError.show();
+                return false;
+            }
+        });
+
+        $(".korisnik-uloge").change(function () {
+            var el = $(".korisnik-uloge");
+            var atLeastOneChecked = false;
+
+            for (i = 0; i < el.length; i++) {
+                if (el[i].checked === true) {
+                    atLeastOneChecked = true;
+                }
+            }
+
+            if (atLeastOneChecked === true) {
+                for (i = 0; i < el.length; i++) {
+                    el[i].required = false;
+                }
+
+                el.removeClass("is-invalid");
+                el.addClass("is-valid");
+
+                declarationsError.hide();
+            }
+            else {
+                for (i = 0; i < el.length; i++) {
+                    el[i].required = true;
+                }
+
+                el.removeClass("is-valid");
+                el.addClass("is-invalid");
+
+                declarationsError.show();
+            }
+        });
+
+        $(document).ready(function () {
+            if ($(".korisnik-uloge").is(":checked")) {
+                $(".korisnik-uloge").prop('required', false);
+            }
+        });
+    </script>
+}
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Korisnici</h1>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card card-lightblue">
+                    <div class="card-header">
+                        <h3 class="card-title">Dodavanje novog korisnika</h3>
+                    </div>
+                    <form role="form" asp-action="Snimi" method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label asp-for="Ime">Ime</label>
+                                        <input asp-for="Ime" class="form-control" />
+                                        <span asp-validation-for="Ime" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label asp-for="Prezime">Prezime</label>
+                                        <input asp-for="Prezime" class="form-control" />
+                                        <span asp-validation-for="Prezime" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="KorisnickoIme">Korisničko ime</label>
+                                <input asp-for="KorisnickoIme" class="form-control" />
+                                <span asp-validation-for="KorisnickoIme" class="text-danger"></span>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label asp-for="Lozinka">Lozinka</label>
+                                        <input asp-for="Lozinka" class="form-control" autocomplete="new-password" />
+                                        <span asp-validation-for="Lozinka" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label asp-for="LozinkaPotvrda">Potvrda lozinke</label>
+                                        <input asp-for="LozinkaPotvrda" class="form-control" />
+                                        <span asp-validation-for="LozinkaPotvrda" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Uloge">Uloge</label>
+                                <br />
+                                @for (int i = 0; i < Model.Uloge.Count; i++)
+                                {
+                                    <div class="form-check">
+                                        <input type="hidden" asp-for="@Model.Uloge[i].Value" />
+                                        <input asp-for="@Model.Uloge[i].Selected" class="korisnik-uloge form-check-input" required />
+                                        <label class="form-check-label">@Model.Uloge[i].Text</label>
+                                        <br />
+                                    </div>
+                                }
+                                <span id="uloge-error" class="text-danger">Odaberite bar jednu ulogu</span>
+                            </div>
+                            <div class="form-group">
+                                <label for="KorisnikSlika">Slika korisnika <span id="imgUpozorenje">(preporučene dimenzije: 128x128px, max. veličina: 60KB, dozvoljeni formati: jpg, jpeg, png)</span></label>
+                                <div class="custom-file">
+                                    <input asp-for="KorisnikSlika" class="custom-file-input">
+                                    <label asp-for="KorisnikSlika" class="custom-file-label">Odaberite sliku</label>
+                                    <span asp-validation-for="KorisnikSlika" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <button type="submit" class="btn btn-outline-primary">Snimi</button>
+                                <a class="btn btn-outline-secondary float-right" asp-action="Index">Nazad</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

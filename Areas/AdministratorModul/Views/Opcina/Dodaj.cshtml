@@ -1,0 +1,72 @@
+﻿
+@{
+    ViewData["Title"] = "Općine";
+}
+
+@model ServisApp.Areas.AdministratorModul.ViewModels.OpcinaDodajVM
+
+@section scripts
+{
+    <script>
+        var settings = {
+            validClass: "is-valid",
+            errorClass: "is-invalid"
+
+        };
+        $.validator.setDefaults(settings);
+        $.validator.unobtrusive.options = settings;
+
+        $('.select2bs4').select2({
+            theme: 'bootstrap4'
+        })
+
+        $("select").on("select2:close", function () {
+            $(this).valid();
+        });
+    </script>
+}
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Općine</h1>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card card-lightblue">
+                    <div class="card-header">
+                        <h3 class="card-title">Dodavanje nove općine</h3>
+                    </div>
+                    <form role="form" asp-action="Snimi" method="post" class="needs-validation" novalidate>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label asp-for="Naziv">Naziv</label>
+                                <input asp-for="Naziv" class="form-control" />
+                                <span asp-validation-for="Naziv" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="KantonId">Kanton</label>
+                                <select asp-for="KantonId" asp-items="@Model.Kantoni" class="form-control select2bs4" style="width: 100%;">
+                                    <option value="0">(odaberite kanton)</option>
+                                </select>
+                                <span asp-validation-for="KantonId" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-outline-primary">Snimi</button>
+                            <a class="btn btn-outline-secondary float-right" asp-action="Index">Nazad</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,457 @@
+﻿
+@{
+    ViewData["Title"] = "Home";
+}
+@model ServisApp.ViewModels.HomeIndexVM
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+
+            moment.updateLocale("en", {
+                week: { dow: 1 } // Monday is the first day of the week
+            });
+
+            $("#calendar").datetimepicker({
+                format: 'L',
+                inline: true
+            });
+        });
+    </script>
+}
+<!-- Content Header (Page header) -->
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0 text-dark">Nadzorna ploča</h1>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            @if (Model.IsKlijent)
+            {
+                <div class="col-lg-3 col-6">
+                    <div class="small-box bg-success">
+                        <div class="inner">
+                            <h3>@Model.BrojObjekata</h3>
+
+                            <p>Objekti</p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-home"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-6">
+                    <div class="small-box bg-warning">
+                        <div class="inner">
+                            <h3>@Model.BrojRadnihNaloga</h3>
+
+                            <p>Radni nalozi</p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-ios-list"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-6">
+                    <div class="small-box bg-gradient-blue">
+                        <div class="inner">
+                            <h3>@Model.BrojIspitivanja</h3>
+
+                            <p>Ispitivanja</p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-ios-paper"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-6">
+                    <div class="small-box bg-info">
+                        <div class="inner">
+                            <h3>@Model.BrojIzvještaja</h3>
+
+                            <p>Izvještaji</p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-ios-copy"></i>
+                        </div>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="col-lg-3 col-6">
+                    <div class="small-box bg-info">
+                        <div class="inner">
+                            <h3>@Model.BrojKlijenata</h3>
+
+                            <p>Klijenti</p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-ios-people"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-6">
+                    <div class="small-box bg-success">
+                        <div class="inner">
+                            <h3>@Model.BrojObjekata</h3>
+
+                            <p>Objekti</p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-home"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-6">
+                    <div class="small-box bg-warning">
+                        <div class="inner">
+                            <h3>@Model.BrojRadnihNaloga</h3>
+
+                            <p>Radni nalozi</p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-ios-list"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-6">
+                    <div class="small-box bg-gradient-blue">
+                        <div class="inner">
+                            <h3>@Model.BrojIspitivanja</h3>
+
+                            <p>Ispitivanja</p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-ios-paper"></i>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <hr />
+        <h5 class="mb-2 homeNaslov">Podaci za tekući mjesec - @Model.Mjesec</h5>
+        <hr />
+
+        <div class="row">
+            @if (Model.IsKlijent)
+            {
+                <div class="col-md-3 col-sm-6 col-12">
+                    <div class="info-box">
+                        <span class="info-box-icon bg-info"><i class="ion-ios-compose"></i></span>
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">Zahtjevi</span>
+                            <span class="info-box-number">@Model.BrojZahtjevaMjesec</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 col-12">
+                    <div class="info-box">
+                        <span class="info-box-icon bg-warning"><i class="ion ion-ios-list"></i></span>
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">Radni nalozi</span>
+                            <span class="info-box-number">@Model.BrojRadnihNalogaMjesec</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 col-12">
+                    <div class="info-box">
+                        <span class="info-box-icon bg-gradient-blue"><i class="ion ion-ios-paper"></i></span>
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">Ispitivanja</span>
+                            <span class="info-box-number">@Model.BrojIspitivanjaMjesec</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 col-12">
+                    <div class="info-box">
+                        <span class="info-box-icon bg-success"><i class="ion ion-ios-copy"></i></span>
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">Izvještaji</span>
+                            <span class="info-box-number">@Model.BrojIzvještajaMjesec</span>
+                        </div>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="col-md-3 col-sm-6 col-12">
+                    <div class="info-box">
+                        <span class="info-box-icon bg-info"><i class="ion-ios-compose"></i></span>
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">Ponude</span>
+                            <span class="info-box-number">@Model.BrojPonudaMjesec</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 col-12">
+                    <div class="info-box">
+                        <span class="info-box-icon bg-success"><i class="ion ion-ios-copy"></i></span>
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">Ugovori</span>
+                            <span class="info-box-number">@Model.BrojUgovoraMjesec</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 col-12">
+                    <div class="info-box">
+                        <span class="info-box-icon bg-warning"><i class="ion ion-ios-list"></i></span>
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">Radni nalozi</span>
+                            <span class="info-box-number">@Model.BrojRadnihNalogaMjesec</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 col-12">
+                    <div class="info-box">
+                        <span class="info-box-icon bg-gradient-blue"><i class="ion ion-ios-paper"></i></span>
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">Ispitivanja</span>
+                            <span class="info-box-number">@Model.BrojIspitivanjaMjesec</span>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <hr />
+        <h5 class="mb-2 homeNaslov">Razno</h5>
+        <hr />
+
+        <div class="row">
+            @if (Model.IsOrganizator || Model.IsInzinjer)
+            {
+                <div class="col-sm-6">
+                    <div class="card card-lightblue">
+                        <div class="card-header">
+                            <h3 class="card-title">Podrška</h3>
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body p-0">
+                            <ul class="products-list product-list-in-card pl-2 pr-2">
+                                @if (Model.IsOrganizator)
+                                {
+                                    <li class="item">
+                                        <div class="product-img">
+                                            <img src="~/images/envelope.png" alt="Novi zahtjevi" class="img-size-50">
+                                        </div>
+                                        <div class="product-info">
+                                            <a asp-area="OrganizatorModul" asp-controller="DodijeliZahtjev" asp-action="Index" class="product-title">
+                                                Zahtjeva za dodijeliti
+                                                @if (Model.BrojZahtjevaZaDodijeliti == 0)
+                                                {
+                                                    <span class="badge badge-success float-right">@Model.BrojZahtjevaZaDodijeliti</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="badge badge-warning float-right">@Model.BrojZahtjevaZaDodijeliti</span>
+                                                }
+                                            </a>
+                                            <span class="product-description">
+                                                Novi zahtjeva klijenata
+                                            </span>
+                                        </div>
+                                    </li>
+                                }
+                                <li class="item">
+                                    <div class="product-img">
+                                        <img src="~/images/comments.png" alt="Zahtjevi" class="img-size-50">
+                                    </div>
+                                    <div class="product-info">
+                                        <a asp-area="" asp-controller="Podrska" asp-action="Index" class="product-title">
+                                            Zahtjevi
+                                            <span class="badge badge-success float-right">@Model.BrojZahtjeva</span>
+                                        </a>
+                                        <span class="product-description">
+                                            Komunikacija sa klijentom
+                                        </span>
+                                    </div>
+                                </li>
+                                <li class="item">
+                                    <div class="product-img">
+                                        <img src="~/images/archive.png" alt="Novi zahtjevi" class="img-size-50">
+                                    </div>
+                                    <div class="product-info">
+                                        <a asp-area="" asp-controller="Podrska" asp-action="Arhiva" class="product-title">
+                                            Arhiva
+                                            <span class="badge badge-success float-right">@Model.BrojArhiviranihZahtjeva</span>
+                                        </a>
+                                        <span class="product-description">
+                                            Svi riješeni zahtjevi
+                                        </span>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            }
+            else if (Model.IsKlijent)
+            {
+                <div class="col-sm-6">
+                    <div class="card card-lightblue">
+                        <div class="card-header">
+                            <h3 class="card-title">Podrška</h3>
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body p-0">
+                            <ul class="products-list product-list-in-card pl-2 pr-2">
+                                <li class="item">
+                                    <div class="product-img">
+                                        <img src="~/images/comments.png" alt="Zahtjevi" class="img-size-50">
+                                    </div>
+                                    <div class="product-info">
+                                        <a asp-area="" asp-controller="Podrska" asp-action="Index" class="product-title">
+                                            Zahtjevi
+                                            <span class="badge badge-success float-right">@Model.BrojZahtjeva</span>
+                                        </a>
+                                        <span class="product-description">
+                                            Komunikacija sa podrškom
+                                        </span>
+                                    </div>
+                                </li>
+                                <li class="item">
+                                    <div class="product-img">
+                                        <img src="~/images/archive.png" alt="Novi zahtjevi" class="img-size-50">
+                                    </div>
+                                    <div class="product-info">
+                                        <a asp-area="" asp-controller="Podrska" asp-action="Arhiva" class="product-title">
+                                            Arhiva
+                                            <span class="badge badge-success float-right">@Model.BrojArhiviranihZahtjeva</span>
+                                        </a>
+                                        <span class="product-description">
+                                            Svi riješeni zahtjevi
+                                        </span>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            }
+            else if (Model.IsAdministrator)
+            {
+                <div class="col-sm-6">
+                    <div class="card card-lightblue">
+                        <div class="card-header">
+                            <h3 class="card-title">Posljednje dodani korisnici</h3>
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body p-0">
+                            <ul class="users-list clearfix">
+                                @foreach (var item in Model.KorisniciPodaci)
+                                {
+                                    <li>
+                                        <img src="@item.KorisnikSlikaPath" height="80" width="80" alt="Korisnik slika">
+                                        <a class="users-list-name" href="#">@item.ImePrezimeKorisnika</a>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            }
+            else if (Model.IsMenadzment)
+            {
+                <div class="col-sm-3">
+                    <div class="info-box mb-3 bg-warning">
+                        <span class="info-box-icon"><i class="fas fa-tag"></i></span>
+                        <div class="info-box-content">
+                            <span class="info-box-text">Prihvaćene ponude za mjesec - @Model.Mjesec</span>
+                            <span class="info-box-number">@Model.BrojPrihvacenihPonudaMjesec</span>
+                        </div>
+                    </div>
+                    <div class="info-box mb-3 bg-success">
+                        <span class="info-box-icon"><i class="far fa-thumbs-up"></i></span>
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">Ukupan iznos bez PDV-a</span>
+                            <span class="info-box-number">@Model.UkupanIznosBezPdvMjesec.ToString("F2") KM</span>
+                        </div>
+                    </div>
+                    <div class="info-box mb-3 bg-info">
+                        <span class="info-box-icon"><i class="far fa-thumbs-up"></i></span>
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">Ukupan iznos sa PDV</span>
+                            <span class="info-box-number">@Model.UkupanIznosBezPdvMjesec.ToString("F2") KM</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="info-box mb-3 bg-warning">
+                        <span class="info-box-icon"><i class="fas fa-tag"></i></span>
+                        <div class="info-box-content">
+                            <span class="info-box-text">Prihvaćene ponude za godinu - @Model.Godina</span>
+                            <span class="info-box-number">@Model.BrojPrihvacenihPonuda</span>
+                        </div>
+                    </div>
+                    <div class="info-box mb-3 bg-success">
+                        <span class="info-box-icon"><i class="far fa-thumbs-up"></i></span>
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">Ukupan iznos bez PDV-a</span>
+                            <span class="info-box-number">@Model.UkupanIznosBezPdv.ToString("F2") KM</span>
+                        </div>
+                    </div>
+                    <div class="info-box mb-3 bg-info">
+                        <span class="info-box-icon"><i class="far fa-thumbs-up"></i></span>
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">Ukupan iznos sa PDV</span>
+                            <span class="info-box-number">@Model.UkupanIznosSaPdv.ToString("F2") KM</span>
+                        </div>
+                    </div>
+                </div>
+            }
+            <div class="col-sm-6">
+                <!-- Calendar -->
+                <div class="card bg-gradient-lightblue">
+                    <div class="card-header border-0">
+                        <h3 class="card-title">
+                            <i class="far fa-calendar-alt"></i>
+                            Kalendar
+                        </h3>
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-primary btn-sm" data-card-widget="collapse">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body pt-0">
+                        <div id="calendar" style="width: 100%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

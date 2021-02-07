@@ -1,0 +1,72 @@
+﻿
+@{
+    ViewData["Title"] = "Članovi servisa";
+}
+
+@model ServisApp.Areas.InzinjerModul.ViewModels.ClanServisaDodajVM
+
+@section scripts
+{
+    <script>
+        var settings = {
+            validClass: "is-valid",
+            errorClass: "is-invalid"
+
+        };
+        $.validator.setDefaults(settings);
+        $.validator.unobtrusive.options = settings;
+    </script>
+}
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Članovi servisa</h1>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card card-lightblue">
+                    <div class="card-header">
+                        <h3 class="card-title">Dodavanje novog člana servisa</h3>
+                    </div>
+                    <form role="form" asp-action="Snimi" method="post" class="needs-validation" novalidate>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label asp-for="Ime">Ime</label>
+                                <input asp-for="Ime" class="form-control" />
+                                <span asp-validation-for="Ime" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Prezime">Prezime</label>
+                                <input asp-for="Prezime" class="form-control" />
+                                <span asp-validation-for="Prezime" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="BrojMobitela">Broj mobitela</label>
+                                <input asp-for="BrojMobitela" class="form-control" />
+                                <span asp-validation-for="BrojMobitela" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Zanimanje">Zanimanje</label>
+                                <input asp-for="Zanimanje" class="form-control" />
+                                <span asp-validation-for="Zanimanje" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-outline-primary">Snimi</button>
+                            <a class="btn btn-outline-secondary float-right" asp-action="Index">Nazad</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

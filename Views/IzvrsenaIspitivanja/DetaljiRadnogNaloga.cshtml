@@ -1,0 +1,85 @@
+﻿
+@{
+    ViewData["Title"] = "Radni nalozi";
+}
+
+@model ServisApp.Areas.InzinjerModul.ViewModels.RadniNalogDetaljiVM
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-lightblue">
+                    <div class="card-header">
+                        <h3 class="card-title">Detalji o radnom nalogu</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-2">
+                                <div class="form-group">
+                                    <label>Broj radnog naloga</label>
+                                    <input type="text" class="form-control" style="font-weight: bold;" value="@Model.BrojRadnogNaloga" disabled />
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label>Klijent</label>
+                                    <input type="text" class="form-control" style="font-weight: bold;" value="@Model.NazivKlijenta" disabled />
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Objekat</label>
+                                    <input type="text" class="form-control" style="font-weight: bold;" value="@Model.NazivObjekta" disabled />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-2">
+                                <div class="form-group">
+                                    <label>Početak radova</label>
+                                    <input type="text" class="form-control" value="@Model.DatumPocetkaRadova" disabled />
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="form-group">
+                                    <label>Završetak radova</label>
+                                    <input type="text" class="form-control" value="@Model.DatumZavrsetkaRadova" disabled />
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="form-group">
+                                    <label>Ukupni sati rada</label>
+                                    <input type="text" class="form-control" value="@Model.UkupnoSatiRada" disabled />
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label>Tim koji je izvršio posao</label>
+                                    <ol>
+                                        @foreach (var clan in Model.ClanoviServisa)
+                                        {
+                                            <li>@clan</li>
+                                        }
+                                    </ol>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label>Pregled</label>
+                                    <br />
+                                    <a class="btn btn-app" asp-action="RadniNalogPDF" asp-route-file="@Model.RadniNalogPath" target="_blank">
+                                        <i class="fas fa-file-pdf"></i>PDF
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <a class="btn btn-outline-secondary float-right" asp-action="Index" asp-controller="IzvrsenaIspitivanja" asp-route-id="@Model.ObjekatId" ajax-poziv="da" ajax-rezultat="ajaxPoziv">Nazad</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

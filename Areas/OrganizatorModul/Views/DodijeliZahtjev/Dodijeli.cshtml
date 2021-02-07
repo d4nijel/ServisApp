@@ -1,0 +1,140 @@
+﻿
+@{
+    ViewData["Title"] = "Dodijeli zahtjev";
+}
+
+@model ServisApp.Areas.KlijentModul.ViewModels.ZahtjevDetaljiVM
+
+@section Scripts {
+    <script>
+        var settings = {
+            validClass: "is-valid",
+            errorClass: "is-invalid"
+
+        };
+        $.validator.setDefaults(settings);
+        $.validator.unobtrusive.options = settings;
+
+        $(".select2bs4").select2({
+            theme: 'bootstrap4'
+        })
+
+        $("select").on("select2:close", function () {
+            $(this).valid();
+        });
+    </script>
+}
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Zahtjevi</h1>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card card-lightblue">
+                    <div class="card-header">
+                        <h3 class="card-title">Dodijelite zahtjev</h3>
+                    </div>
+                    <form role="form" asp-action="SnimiDodjelu" method="post" class="needs-validation" novalidate>
+                        <input asp-for="@Model.ZahtjevId" />
+                        <input asp-for="@Model.Naslov" hidden />
+                        <input asp-for="@Model.ZahtjevKategorija" hidden />
+                        <input asp-for="@Model.DatumKreiranja" hidden />
+                        <input asp-for="@Model.KlijentskiRacun" hidden />
+                        <input asp-for="@Model.StatusZahtjevaId" hidden />
+                        <input asp-for="@Model.StatusZahtjevaNaziv" hidden />
+                        <input asp-for="@Model.Opis" hidden />
+                        <input asp-for="@Model.Klijent" hidden />
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label>Naslov</label>
+                                        <input type="text" class="form-control" value="@Model.Naslov" disabled />
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label>Kategorija</label>
+                                        <input type="text" class="form-control" value="@Model.ZahtjevKategorija" disabled />
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label>Kreirano</label>
+                                        <input type="text" class="form-control" value="@Model.DatumKreiranja" disabled />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label>Klijentski profil</label>
+                                        <input type="text" class="form-control" value="@Model.KlijentskiRacun" disabled />
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label>Klijent</label>
+                                        <input type="text" class="form-control" value="@Model.Klijent" disabled />
+                                    </div>
+                                </div>
+                                @if (Model.StatusZahtjevaId == 1)
+                                {
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label>Status</label>
+                                            <input type="text" class="form-control" style="border: 1px solid #28a745;" value="@Model.StatusZahtjevaNaziv" disabled />
+                                        </div>
+                                    </div>
+                                }
+                                else if (Model.StatusZahtjevaId == 2)
+                                {
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label>Status</label>
+                                            <input type="text" class="form-control" style="border: 1px solid #ffc107;" value="@Model.StatusZahtjevaNaziv" disabled />
+                                        </div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label>Status</label>
+                                            <input type="text" class="form-control" style="border: 1px solid #dc3545;" value="@Model.StatusZahtjevaNaziv" disabled />
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                            <div class="form-group">
+                                <label>Opis</label>
+                                <textarea rows="6" class="form-control" disabled>@Model.Opis</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="KorisnikId">Korisnik</label>
+                                <select asp-for="KorisnikId" asp-items="@Model.Korisnici" class="form-control select2bs4" style="width: 100%;">
+                                    <option value="0">(odaberite korisnika)</option>
+                                </select>
+                                <span asp-validation-for="KorisnikId" class="text-danger"></span>
+                            </div>
+                            <div class="card-footer">
+                                <button type="submit" class="btn btn-outline-primary">Snimi</button>
+                                <a class="btn btn-outline-secondary float-right" asp-action="Index">Nazad</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

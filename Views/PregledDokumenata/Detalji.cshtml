@@ -1,0 +1,93 @@
+﻿
+@{
+    ViewData["Title"] = "Dokumenti";
+}
+
+@model ServisApp.Areas.MenadzmentModul.ViewModels.DokumentDetaljiVM
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Dokumenti</h1>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card card-lightblue">
+                    <div class="card-header">
+                        <h3 class="card-title">Detalji o dokumentu</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label>Naziv</label>
+                            <textarea rows="6" asp-for="@Model.Naziv" class="form-control" value="@Model.Naziv" disabled></textarea>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Tip dokumenta</label>
+                                    <input type="text" class="form-control" value="@Model.TipDokumenta" disabled />
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Datum izdavanja dokumenta</label>
+                                    <input type="text" class="form-control" value="@Model.DatumIzdavanja" disabled />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Pravni izvor <a href="http://www.sluzbenilist.ba/" target="_blank"><i class="fa fa-info-circle"></i></a></label>
+                                    <input type="text" class="form-control" value="@Model.SluzbeniList" disabled />
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Postavio dokument</label>
+                                    <input type="text" class="form-control" value="@Model.Korisnik" disabled />
+                                </div>
+                            </div>
+                        </div>
+                        @if (Model.DokumentStatus)
+                        {
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label>Status</label>
+                                    <input type="text" class="form-control" style="border: 1px solid #28a745;" disabled value="Aktivan" />
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label>Status</label>
+                                    <input type="text" class="form-control" style="border: 1px solid #dc3545;" disabled value="Neaktivan" />
+                                </div>
+                            </div>
+                        }
+                        <div class="form-group">
+                            <label>Pregled dokumenta</label>
+                            <br />
+                            <a class="btn btn-app" asp-action="DokumentPDF" asp-route-file="@Model.DokumentPath" target="_blank">
+                                <i class="fas fa-file-pdf"></i>PDF
+                            </a>
+                        </div>
+                        <div class="card-footer">
+                            <a class="btn btn-outline-secondary float-right" asp-action="Index">Nazad</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

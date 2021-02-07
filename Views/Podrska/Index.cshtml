@@ -1,0 +1,151 @@
+﻿
+@{
+    ViewData["Title"] = "Zahtjevi";
+    int brojac = 1;
+}
+
+@model ServisApp.ViewModels.ZahtjevIndexVM
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+
+            var ord1 = 7;
+            var ord2 = 6;
+
+            var isKlijent = @Json.Serialize(Model.IsKlijent);
+
+            if (isKlijent) {
+                ord1 = 6;
+                ord2 = 5;
+            }
+
+            $('#tblOtvoreniZahtjevi').DataTable({
+                responsive: true,
+                autoWidth: false,
+                language: {
+                    search: "Pretraga",
+                    emptyTable: "Nema podataka u tabeli",
+                    info: "Prikaz _START_ do _END_ od ukupno _TOTAL_ zapisa",
+                    infoEmpty: "Prikaz 0 do 0 od ukupno 0 zapisa",
+                    infoFiltered: "pronađeno od _MAX_ ukupna zapisa",
+                    lengthMenu: "Prikaži _MENU_ zapisa",
+                    loadingRecords: "Loading...",
+                    processing: "Processing...",
+                    zeroRecords: "Nije pronađen nijedan zapis",
+                    paginate: {
+                        first: "Prva",
+                        last: "Posljednja",
+                        next: "Naredna",
+                        previous: "Prethodna"
+                    }
+                },
+                columnDefs: [
+                    { orderable: false, "targets": ord1 },
+                    { className: "dt-center", "targets": "_all" },
+                    { type: "de_datetime", targets: ord2 }
+                ],
+                lengthMenu: [10, 20, 50],
+                order: [[ord2, "desc"]],
+            });
+        });
+    </script>
+}
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Zahtjevi</h1>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card card-lightblue">
+                    <div class="card-header">
+                        <h3 class="card-title">Prikaz svih zahtjeva</h3>
+                    </div>
+                    <div class="card-body">
+                        <table id="tblOtvoreniZahtjevi" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Red. br.</th>
+                                    <th>Naslov</th>
+                                    @if (Model.IsKlijent)
+                                    {
+                                        <th>Korisnik</th>
+                                    }
+                                    else
+                                    {
+                                        <th>Klijentski profil</th>
+                                        <th>Klijent</th>
+                                    }
+                                    <th>Kategorija</th>
+                                    <th>Status</th>
+                                    <th>Kreiran</th>
+                                    <th>Akcija</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var x in Model.Rows)
+                                {
+                                    <tr>
+                                        <th scope="row">@(brojac++)</th>
+                                        <td>@x.Naslov</td>
+                                        @if (Model.IsKlijent)
+                                        {
+                                            <td>@x.Korisnik</td>
+                                        }
+                                        else
+                                        {
+                                            <td>@x.KlijentskiRacun</td>
+                                            <td>@x.Klijent</td>
+                                        }
+                                        <td>@x.KategorijaZahtjeva</td>
+                                        @if (x.StatusZahtjevaId == 1)
+                                        {
+                                            <td><span class="badge bg-success">@x.StatusZahtjeva</span></td>
+                                        }
+                                        else if (x.StatusZahtjevaId == 2)
+                                        {
+                                            <td><span class="badge bg-warning">@x.StatusZahtjeva</span></td>
+                                        }
+                                        else
+                                        {
+                                            <td><span class="badge bg-danger">@x.StatusZahtjeva</span></td>
+                                        }
+                                        <td>@x.DatumKreiranja</td>
+                                        <td>
+                                            @if (Model.Dodijeli)
+                                            {
+                                                <a class="btn btn-outline-info btn-sm" asp-action="Dodijeli" asp-route-id="@x.ZahtjevId">Dodijeli</a>
+                                            }
+                                            else if (Model.IsArhiva)
+                                            {
+                                                <a class="btn btn-outline-info btn-sm" asp-action="Detalji" asp-route-id="@x.ZahtjevId" asp-route-arhiva="true">Detalji</a>
+                                            }
+                                            else
+                                            {
+                                                <a class="btn btn-outline-info btn-sm" asp-action="Detalji" asp-route-id="@x.ZahtjevId">Detalji</a>
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                        <br />
+                        <div class="card-footer">
+                            <a class="btn btn-outline-secondary float-right" asp-area="" asp-controller="Home" asp-action="Index">Nazad</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

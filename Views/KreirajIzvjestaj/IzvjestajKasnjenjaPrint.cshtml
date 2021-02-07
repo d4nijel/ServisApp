@@ -1,0 +1,103 @@
+﻿
+@{
+    Layout = null;
+    int brojac = 1;
+}
+
+@model ServisApp.ViewModels.PregledIspitivanjaIndexVM
+
+<html>
+<head>
+    <link href="~/css/invoice.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+    <div class="izvjestaj-box">
+        <table>
+            <tr>
+                <td class="left">
+                    <img src="~/images/ServisAppLogo4.png" alt="ServisApp logo" />
+                </td>
+                <td class="right">
+                    <h4>Tip izvještaja: <span>Izvještaj kašnjenja</span></h4>
+                    <h4 style="margin-bottom: 0px;">Datum printanja izvještaja: <span>@DateTime.Now.ToShortDateString() @DateTime.Now.ToShortTimeString()</span></h4>
+                </td>
+            </tr>
+        </table>
+        <hr />
+        <div class="naslov"><h2>IZVJEŠTAJ KAŠNJENJA</h2></div>
+        <hr />
+        @if (Model.IsKlijent)
+        {
+            if (Model.IsUsluga)
+            {
+                <div class="naslov2"><h5>Prikaz svih objekata klijenta <span>@Model.Klijent</span>, kod kojih je rok za <span>@Model.Usluga</span> istekao ili ističe za najkasnije 20 dana:</h5></div>
+            }
+            else
+            {
+                <div class="naslov2"><h5>Prikaz svih objekata klijenta <span>@Model.Klijent</span>, kod kojih je rok za pregled/ispitivanje po nekoj od kategorija istekao ili ističe za najkasnije 20 dana:</h5></div>
+            }
+        }
+        else
+        {
+            if (Model.IsUsluga)
+            {
+                <div class="naslov2"><h5>Prikaz svih objekata kod kojih je rok za <span>@Model.Usluga</span> istekao ili ističe za najkasnije 20 dana:</h5></div>
+            }
+            else
+            {
+                <div class="naslov2"><h5>Prikaz svih objekata kod kojih je rok za pregled/ispitivanje po nekoj od kategorija istekao ili ističe za najkasnije 20 dana:</h5></div>
+            }
+        }
+        <table id="izvjestaj">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Klijent</th>
+                    <th>Objekat</th>
+                    <th>Kanton</th>
+                    <th>Općina</th>
+                    <th>Mjesto</th>
+                    @foreach (var item in Model.Usluge)
+                    {
+                        <th class="spitem">@item.Value</th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var x in Model.Rows)
+                {
+                    <tr>
+                        <td>@(brojac++)</td>
+                        <td>@x.Klijent</td>
+                        <td>@x.Objekat</td>
+                        <td>@x.Kanton</td>
+                        <td>@x.Opcina</td>
+                        <td>@x.Mjesto</td>
+                        @foreach (var item in x.BrojDanaDoIstekaUsluge)
+                        {
+                            if (item == -365)
+                            {
+                                <td></td>
+                            }
+                            else if (item < 0)
+                            {
+                                <td class="danger">@item</td>
+                            }
+                            else if (item <= 20)
+                            {
+                                <td class="warning">@item</td>
+                            }
+                            else
+                            {
+                                <td class="success">@item</td>
+                            }
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
+
+
