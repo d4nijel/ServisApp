@@ -29,7 +29,10 @@ namespace ServisApp.Util
                     _ => "Razno",
                 };
 
-                string folderDokumenti = string.Format("PDFFiles\\Dokumenti\\{0}", podFolderDokumenti); //PDFFiles\Dokumenti\Zakoni
+                //path1
+                //string folderDokumenti = string.Format("PDFFiles\\Dokumenti\\{0}", podFolderDokumenti); //PDFFiles\Dokumenti\Zakoni
+                string folderDokumenti = string.Format("PDFFiles" + Path.DirectorySeparatorChar + "Dokumenti" + Path.DirectorySeparatorChar + "{0}", podFolderDokumenti); //PDFFiles\Dokumenti\Zakoni
+
                 var pathDokumenti = Path.Combine(Directory.GetCurrentDirectory(), folderDokumenti);
 
                 int fCount = 0;
@@ -40,7 +43,9 @@ namespace ServisApp.Util
 
                 fullFileName = brojTipDokumenta + "-" + (++fCount).ToString() + ext; //Zakon-1.pdf
 
-                string folder = string.Format("PDFFiles\\{0}\\{1}", tipDokumenta, podFolderDokumenti);//PDFFiles\Dokumenti\Zakoni\
+                //path2
+                //string folder = string.Format("PDFFiles\\{0}\\{1}", tipDokumenta, podFolderDokumenti);//PDFFiles\Dokumenti\Zakoni\
+                string folder = string.Format("PDFFiles" + Path.DirectorySeparatorChar + "{0}" + Path.DirectorySeparatorChar + "{1}", tipDokumenta, podFolderDokumenti);//PDFFiles\Dokumenti\Zakoni\
                 if (!Directory.Exists(folder))
                 {
                     Directory.CreateDirectory(folder);
@@ -66,7 +71,9 @@ namespace ServisApp.Util
                     f2 = fullFileName.Substring(5, 2); //mjesec 06
                 }
 
-                string folder = string.Format("PDFFiles\\{0}\\{1}\\{2}", tipDokumenta, f1, f2);//PDFFiles\Tip_dokumenta\2020\06\
+                //path3
+                //string folder = string.Format("PDFFiles\\{0}\\{1}\\{2}", tipDokumenta, f1, f2);//PDFFiles\Tip_dokumenta\2020\06\
+                string folder = string.Format("PDFFiles" + Path.DirectorySeparatorChar + "{0}" + Path.DirectorySeparatorChar + "{1}" + Path.DirectorySeparatorChar + "{2}", tipDokumenta, f1, f2);//PDFFiles\Tip_dokumenta\2020\06\
                 if (!Directory.Exists(folder))
                 {
                     Directory.CreateDirectory(folder);
