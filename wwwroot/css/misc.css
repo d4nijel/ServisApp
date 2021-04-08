@@ -63,7 +63,7 @@ table.dataTable th {
 
 .custom-edit-image {
     text-align: center;
-    padding-bottom:10px;
+    padding-bottom: 10px;
 }
 
 .btnRN {
@@ -71,10 +71,24 @@ table.dataTable th {
     border-color: #fff;
 }
 
-.btnRN:disabled {
-    cursor: default;
-}
+    .btnRN:disabled {
+        cursor: default;
+    }
 
 .homeNaslov {
     color: gray;
 }
+
+.footer-fit {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.img-fit {
+    width: 30%
+}
+
+    .img-fit:hover {
+        opacity: 0.5;
+        width: 30%;
+    }
