@@ -79,16 +79,14 @@ table.dataTable th {
     color: gray;
 }
 
-.footer-fit {
-    text-align: center;
-    margin-top: 30px;
-}
-
 .img-fit {
-    width: 30%
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    margin: 10px 10px;
+    width: 100px;
 }
 
     .img-fit:hover {
         opacity: 0.5;
-        width: 30%;
     }
